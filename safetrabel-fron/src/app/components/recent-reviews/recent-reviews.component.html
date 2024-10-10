@@ -1,0 +1,20 @@
+<section class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Recent Reviews</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      @for (review of reviews(); track review.id) {
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <h3 class="font-semibold">{{ review.destination }}</h3>
+              <p class="text-sm text-gray-600">by {{ review.user }}</p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-yellow-500">★</span>
+              <span class="ml-1">{{ review.rating.toFixed(1) }}</span>
+            </div>
+          </div>
+          <p class="text-gray-700">{{ review.comment }}</p>
+        </div>
+      }
+    </div>
+  </section>
