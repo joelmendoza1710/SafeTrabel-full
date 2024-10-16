@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
 
 
 interface Review {
@@ -15,7 +17,7 @@ interface Review {
 @Component({
   selector: 'app-review-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,HeaderComponent,FooterComponent],
   templateUrl: './review-list.component.html',
   styleUrl: './review-list.component.scss'
 })

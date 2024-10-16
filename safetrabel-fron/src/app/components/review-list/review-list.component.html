@@ -1,13 +1,11 @@
 <div class="bg-gray-100 min-h-screen">
-    <header class="bg-green-500 text-white p-4">
-      <div class="max-w-4xl mx-auto">
-        <h1 class="text-2xl font-bold">TripAdvisor-style Reviews</h1>
-      </div>
-    </header>
+  <app-header></app-header>
+
+
     <main class="py-8">
         
 <div class="max-w-4xl mx-auto p-4">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Reviews</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Reseñas</h2>
     
     <div class="space-y-8">
       @for (review of reviews; track review.id) {
@@ -53,11 +51,9 @@
     </div>
   </div>
 
-
-
-
-
     </main>
+
+    <app-footer></app-footer>
   </div>
 
 
