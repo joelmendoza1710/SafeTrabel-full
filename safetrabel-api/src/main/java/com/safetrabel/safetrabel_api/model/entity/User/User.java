@@ -1,5 +1,6 @@
-package com.safetrabel.safetrabel_api.model.User;
+package com.safetrabel.safetrabel_api.model.entity.User;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,19 +25,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "username", nullable = false)
     String name;
     @Column(name = "email", nullable = false)
     String username;
     @Column(name = "password", nullable = false)
     String password;
-  
+
+     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime createdAt = ZonedDateTime.now();  // Definir valor por defecto
+    
     @Enumerated(EnumType.STRING)
     Role role;
 

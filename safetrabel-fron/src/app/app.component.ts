@@ -6,15 +6,22 @@ import { SearchComponent } from './components/search/search.component';
 import { PopularDestinationsComponent } from './components/popular-destinations/popular-destinations.component';
 import { RecentReviewsComponent } from './components/recent-reviews/recent-reviews.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptorService } from './services/inicio/jwt-interceptor.service';
+import { ErrorInterceptorService } from './services/inicio/error-interceptor.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
+    
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.scss', providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
+    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true}
+  ],
 })
 export class AppComponent {
   title = 'Safe Travel';
