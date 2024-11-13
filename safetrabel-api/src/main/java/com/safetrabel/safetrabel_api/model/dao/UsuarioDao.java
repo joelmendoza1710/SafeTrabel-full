@@ -11,8 +11,7 @@ public interface UsuarioDao extends JpaRepository<User,Integer> {
     Optional<User> findByUsername(String username); 
    
    
-    @SuppressWarnings("null")
-    Optional<User> findById(Integer userId); 
+    Optional<User> findById(Long userId); 
 
 
 }

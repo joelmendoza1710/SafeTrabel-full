@@ -8,7 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.safetrabel.safetrabel_api.Jwt.JwtService;
+import com.safetrabel.safetrabel_api.mapper.UserMapper;
 import com.safetrabel.safetrabel_api.model.dao.UsuarioDao;
+import com.safetrabel.safetrabel_api.model.dto.UserDTO;
 import com.safetrabel.safetrabel_api.model.entity.User.Role;
 import com.safetrabel.safetrabel_api.model.entity.User.User;
 import com.safetrabel.safetrabel_api.payload.AuthResponse;
@@ -17,28 +19,30 @@ import com.safetrabel.safetrabel_api.payload.RegisterRequest;
 
 @Service
 public class AuthService {
-     @Autowired
+    @Autowired
     private UsuarioDao usuarioDao;
     @Autowired
-
     private JwtService jwtService;
     @Autowired
-
     private PasswordEncoder passwordEncoder;
     @Autowired
-
     private AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=usuarioDao.findByUsername(request.getUsername()).orElseThrow();
-        User users=usuarioDao.findByUsername(request.getUsername()).orElseThrow();
-        String token=jwtService.getToken(user);
-        return AuthResponse.builder()
-            .result(users)
-            .token(token)
-            .build();
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
 
+        User user = usuarioDao.findByUsername(request.getUsername()).orElseThrow();
+        String token = jwtService.getToken((UserDetails) user);
+
+        // Convertir User a UserDTO
+        UserDTO userDTO = UserMapper.INSTANCE.toUserDTO(user);
+
+        return AuthResponse.builder()
+                .result(userDTO)
+                .token(token)
+                .build();
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -51,11 +55,12 @@ public class AuthService {
 
         usuarioDao.save(user);
 
+        // Convertir User a UserDTO
+        UserDTO userDTO = UserMapper.INSTANCE.toUserDTO(user);
+
         return AuthResponse.builder()
-                 .result(user)
+                .result(userDTO)
                 .token(jwtService.getToken(user))
                 .build();
-
     }
-
 }

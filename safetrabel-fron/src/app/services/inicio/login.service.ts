@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import  { Observable, throwError, catchError, BehaviorSubject , tap, map} from 'rxjs';
+import  { Observable, throwError, catchError, BehaviorSubject , tap, map, ReplaySubject} from 'rxjs';
 import { LoginRequest, RegisterRequest } from './loginRequest';
 import { environment } from '../../../environments/environment';
 
@@ -10,6 +10,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class LoginService {
+
+  datoslogin:any;
+  private _user: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentUserData: BehaviorSubject<String> =new BehaviorSubject<String>("");
@@ -50,6 +53,17 @@ export class LoginService {
       console.error('Backend retornó el código de estado ', error);
     }
     return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
+  }
+
+  get user$(): Observable<any> {
+    return this._user.asObservable();
+}
+
+  
+
+  get datoslogins():Observable<any>{
+    
+    return this.datoslogin
   }
 
   get userData():Observable<String>{

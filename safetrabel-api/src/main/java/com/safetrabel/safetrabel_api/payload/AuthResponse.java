@@ -1,5 +1,5 @@
 package com.safetrabel.safetrabel_api.payload;
-import com.safetrabel.safetrabel_api.model.entity.User.User;
+import com.safetrabel.safetrabel_api.model.dto.UserDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponse {
-    User result;
+    UserDTO result;
     String token;
 
 }

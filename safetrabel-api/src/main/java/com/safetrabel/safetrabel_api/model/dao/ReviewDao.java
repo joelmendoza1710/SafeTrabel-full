@@ -12,4 +12,10 @@ public interface ReviewDao extends JpaRepository<reviews, Long> {
 
     List<reviews> findAllByOrderByCreatedAtDesc();
 
+    // Método para filtrar reseñas por userId
+    List<reviews> findByUserIdOrderByCreatedAtDesc(Long userId);
+
+    // Método para filtrar reseñas por locationId
+    List<reviews> findByLocationIdOrderByCreatedAtDesc(Long locationId);
+
 }

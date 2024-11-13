@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin(origins={"http://localhost:4200"})
 public class LocationController {
+    
 
 
     @Autowired
@@ -36,7 +37,9 @@ public class LocationController {
         return ResponseEntity.ok(savedLocation);
     }
 
+
     // Método para obtener todas las ubicaciones
+    
     @GetMapping
     public List<locations> getAllLocations() {
         return locationService.getAllLocations();

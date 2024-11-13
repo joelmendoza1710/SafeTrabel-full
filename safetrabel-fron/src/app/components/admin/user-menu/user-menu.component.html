@@ -1,0 +1,23 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" class="text-white">
+  <mat-icon>account_circle</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu" class="bg-white">
+  @if (userEmail && userName) {
+  <div class="px-4 py-2 text-green-700">
+    <div>{{ userName }}</div>
+    <div class="text-sm text-green-600">{{ userEmail }}</div>
+  </div>
+  <button
+    mat-menu-item
+    (click)="logout()"
+    class="text-green-700 hover:bg-green-100"
+  >
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+  
+  }@else {
+  <div class="text-sm text-green-600 p-2"><a href="/login" class="hover:underline">Login</a></div>
+  }
+</mat-menu>

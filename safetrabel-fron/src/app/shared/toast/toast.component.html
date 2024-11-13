@@ -1,0 +1,10 @@
+<div *ngIf="toast" 
+[@fadeInOut]
+[ngClass]="{'bg-green-100 border-green-500 text-green-700': toast.type === 'success',
+            'bg-red-100 border-red-500 text-red-700': toast.type === 'error'}"
+class="fixed top-4 right-4 px-4 py-3 rounded-lg border-l-4 shadow-md transition-all duration-300 ease-in-out">
+<p class="font-bold">
+{{ toast.type === 'success' ? '¡Éxito!' : 'Error' }}
+</p>
+<p>{{ toast.message }}</p>
+</div>

@@ -39,6 +39,7 @@ public class User implements UserDetails {
     String password;
 
      @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+     @Builder.Default 
     private ZonedDateTime createdAt = ZonedDateTime.now();  // Definir valor por defecto
     
     @Enumerated(EnumType.STRING)

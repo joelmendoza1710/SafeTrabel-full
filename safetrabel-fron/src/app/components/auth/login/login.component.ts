@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../../services/inicio/login.service';
 import { LoginRequest } from '../../../services/inicio/loginRequest';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastService } from '../../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   loginError:string="";
   loginForm: UntypedFormGroup;
  
-  constructor(private formBuilder:UntypedFormBuilder, private router:Router, private loginService: LoginService) {
+  constructor(private formBuilder:UntypedFormBuilder,private toastService: ToastService, private router:Router, private loginService: LoginService) {
     this.loginForm=this.formBuilder.group({
       username:['',[Validators.required,Validators.email]],
       password: ['',Validators.required],
@@ -55,11 +56,13 @@ export class LoginComponent implements OnInit {
           console.log(userData);
         },
         error: (errorData) => {
+          this.toastService.showToast('Error al iniciar sesión. Por favor, inténtalo de nuevo.', 'error');
           console.error(errorData);
           this.loginError=errorData;
         },
         complete: () => {
           console.info("Login completo");
+          this.toastService.showToast('Has iniciado sesión correctamente', 'success');
           this.router.navigateByUrl('/home');
           this.loginForm.reset();
         }
