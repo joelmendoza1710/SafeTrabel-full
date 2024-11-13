@@ -1,0 +1,25 @@
+<div class="min-h-screen bg-green-100">
+    <!-- Header -->
+    <app-navbar></app-navbar>
+
+    <!-- Main content -->
+    <div class="flex">
+      <!-- Sidebar -->
+      <app-menu-vertical></app-menu-vertical>
+    
+
+      <!-- Main content area -->
+      <main class="flex-1 p-8">
+
+        @if (menuname==='Dashboard') {
+            <app-dashboard></app-dashboard>
+
+        }
+        @if (menuname==='Users') {
+            <app-user></app-user>
+
+        }
+       
+      </main>
+    </div>
+  </div>

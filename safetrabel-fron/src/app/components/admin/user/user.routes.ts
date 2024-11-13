@@ -1,14 +1,10 @@
 import { Routes } from '@angular/router';
+import { UserTableComponent } from './user-table/user-table.component';
 
 
-export const routes: Routes = [
+export default [
     {
-        path:'', pathMatch:'full', redirectTo: 'home'
+        path:'user', component:UserTableComponent
         
     },
-
-   
- 
-
-    
-];
+] as Routes;

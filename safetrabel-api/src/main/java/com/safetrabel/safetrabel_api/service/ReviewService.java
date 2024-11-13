@@ -24,7 +24,7 @@ public class ReviewService {
         return reviewsMapper.toReviewDTO(savedReview);
     }
 
-    // Método para obtener todas las reseñas con ReviewDTO
+    // Método para obtener todas las reseñas 
     public List<ReviewDTO> getAllReviews() {
         List<reviews> reviewsList = reviewRepository.findAll();
         return reviewsList.stream()
@@ -32,13 +32,13 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    // Método para obtener una reseña por ID con ReviewDTO
+    // Método para obtener una reseña por ID 
     public Optional<ReviewDTO> getReviewById(Long id) {
         Optional<reviews> review = reviewRepository.findById(id);
         return review.map(reviewsMapper::toReviewDTO);
     }
 
-    // Método para actualizar una reseña existente con ReviewDTO
+    // Método para actualizar una reseña existente 
     public ReviewDTO updateReview(Long id, reviews reviewDetails) {
         Optional<reviews> optionalReview = reviewRepository.findById(id);
         if (optionalReview.isPresent()) {
@@ -55,7 +55,7 @@ public class ReviewService {
         }
     }
 
-    // Métodos para obtener reseñas filtradas y ordenadas con ReviewDTO
+    // Métodos para obtener reseñas filtradas y ordenadas 
     public List<ReviewDTO> getReviewsOrderedByDate() {
         List<reviews> reviewsList = reviewRepository.findAllByOrderByCreatedAtDesc();
         return reviewsList.stream()

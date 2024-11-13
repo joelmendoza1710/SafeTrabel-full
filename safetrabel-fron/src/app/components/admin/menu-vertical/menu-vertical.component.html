@@ -1,11 +1,11 @@
 <aside class="w-64 bg-white h-screen">
     <nav class="p-4">
       <ul class="space-y-2">
-        <li><a href="#" class="block p-2 hover:bg-green-200 rounded">Dashboard</a></li>
-        <li><a href="#" class="block p-2 hover:bg-green-200 rounded">Users</a></li>
-        <li><a href="#" class="block p-2 hover:bg-green-200 rounded">Products</a></li>
-        <li><a href="#" class="block p-2 hover:bg-green-200 rounded">Orders</a></li>
-        <li><a href="#" class="block p-2 hover:bg-green-200 rounded">Settings</a></li>
+        <li><button value="Dashboard" (click)="obtenerValor($event)" ><a  class="block p-2 hover:bg-green-200 rounded">Dashboard</a></button></li>
+        <li><button  value="Users" (click)="obtenerValor($event)"><a  class="block p-2 hover:bg-green-200 rounded">Users</a></button></li>
+        <li><button value="Reseñas" (click)="obtenerValor($event)"><a  class="block p-2 hover:bg-green-200 rounded">Reseñas</a></button></li>
+        <li><button value="Orders" (click)="obtenerValor($event)"><a class="block p-2 hover:bg-green-200 rounded">Orders</a></button></li>
+        <li><button value="Settings" (click)="obtenerValor($event)"><a  class="block p-2 hover:bg-green-200 rounded">Settings</a></button></li>
       </ul>
     </nav>
   </aside>

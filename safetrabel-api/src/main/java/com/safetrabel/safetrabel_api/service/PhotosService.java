@@ -24,30 +24,30 @@ public class PhotosService  {
    
 
     @Autowired
-    private PhotosMapper photosMapper; // Inyección del PhotosMapper
+    private PhotosMapper photosMapper; 
 
   
 
 
-    // Método para insertar o actualizar una foto con PhotosDTO
+    // Método para insertar o actualizar una foto 
     public PhotosDTO savePhoto(PhotosDTO photoDTO) {
-        photos photoEntity = photosMapper.toPhotosEntity(photoDTO); // Convertir DTO a entidad
+        photos photoEntity = photosMapper.toPhotosEntity(photoDTO); 
         photos savedPhoto = photoRepository.save(photoEntity);
-        return photosMapper.toPhotosDTO(savedPhoto); // Convertir entidad a DTO
+        return photosMapper.toPhotosDTO(savedPhoto); 
     }
 
-    // Método para obtener todas las fotos con PhotosDTO
+    // Método para obtener todas las fotos 
     public List<PhotosDTO> getAllPhotos() {
         List<photos> photosList = photoRepository.findAll();
         return photosList.stream()
-                .map(photosMapper::toPhotosDTO) // Convertir de entidad a DTO
+                .map(photosMapper::toPhotosDTO) 
                 .collect(Collectors.toList());
     }
 
-    // Método para obtener una foto por ID con PhotosDTO
+    // Método para obtener una foto por ID 
     public Optional<PhotosDTO> getPhotoById(Long id) {
         Optional<photos> photo = photoRepository.findById(id);
-        return photo.map(photosMapper::toPhotosDTO); // Convertir de entidad a DTO
+        return photo.map(photosMapper::toPhotosDTO); 
     }
 
     // Método para eliminar una foto por ID
@@ -55,15 +55,15 @@ public class PhotosService  {
         photoRepository.deleteById(id);
     }
 
-    // Método para actualizar una foto existente con PhotosDTO
+    // Método para actualizar una foto existente 
     public PhotosDTO updatePhoto(Long id, PhotosDTO photoDetailsDTO) {
         Optional<photos> optionalPhoto = photoRepository.findById(id);
         if (optionalPhoto.isPresent()) {
             photos photo = optionalPhoto.get();
-            photos updatedPhoto = photosMapper.toPhotosEntity(photoDetailsDTO); // Convertir DTO a entidad
-            updatedPhoto.setId(photo.getId()); // Aseguramos que el ID existente se mantenga
+            photos updatedPhoto = photosMapper.toPhotosEntity(photoDetailsDTO); 
+            updatedPhoto.setId(photo.getId()); 
             photos savedUpdatedPhoto = photoRepository.save(updatedPhoto);
-            return photosMapper.toPhotosDTO(savedUpdatedPhoto); // Convertir entidad a DTO
+            return photosMapper.toPhotosDTO(savedUpdatedPhoto); 
         } else {
             throw new RuntimeException("Photo not found with id " + id);
         }
@@ -74,19 +74,19 @@ public class PhotosService  {
         return photoRepository.save(photo);
     }
 
-    // Método para obtener fotos por userId con PhotosDTO
+    // Método para obtener fotos por userId 
     public List<PhotosDTO> getPhotosByUserId(Long userId) {
         List<photos> photosList = photoRepository.findByUserId(userId);
         return photosList.stream()
-                .map(photosMapper::toPhotosDTO) // Convertir de entidad a DTO
+                .map(photosMapper::toPhotosDTO) 
                 .collect(Collectors.toList());
     }
 
-    // Método para obtener fotos por locationId con PhotosDTO
+    // Método para obtener fotos por locationId 
     public List<PhotosDTO> getPhotosByLocationId(Long locationId) {
         List<photos> photosList = photoRepository.findByLocationId(locationId);
         return photosList.stream()
-                .map(photosMapper::toPhotosDTO) // Convertir de entidad a DTO
+                .map(photosMapper::toPhotosDTO) 
                 .collect(Collectors.toList());
     }
 

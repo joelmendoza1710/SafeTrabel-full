@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.safetrabel.safetrabel_api.model.dao.LocationDao;
 import com.safetrabel.safetrabel_api.model.dao.StorageService;
+import com.safetrabel.safetrabel_api.model.dao.UsuarioDao;
 import com.safetrabel.safetrabel_api.model.dto.PhotosDTO;
-
+import com.safetrabel.safetrabel_api.model.entity.photos;
 import com.safetrabel.safetrabel_api.service.PhotosService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +45,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @CrossOrigin(origins={"http://localhost:4200"})
 public class PhotosController {
 
-   // private final String uploadDir = "C:/Users/A01TIJMA.AMERICASHG/Documents/joel/SafeTrabel-full/safetrabel-api/src/main/java/com/safetrabel/safetrabel_api/fotos";
     @Autowired
     private PhotosService photoService;
 
@@ -52,6 +53,12 @@ public class PhotosController {
 
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private UsuarioDao   userRepository;
+
+    @Autowired 
+    private LocationDao locationRepository;
   
 
    
@@ -122,31 +129,45 @@ public class PhotosController {
 
     //prueba para subir fotos 
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)    public Map<String,String>uloadfile(@RequestParam("file")MultipartFile multipartFile){
-        String path = storageService.store(multipartFile);
-        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
-        String url = ServletUriComponentsBuilder
-        .fromHttpUrl(host)
-        .path("/media/")
-        .path(path)
-        .toUriString();
-        
-
-        return Map.of("url",url);
-        
-    }
-
-    @GetMapping("{filename:.+}")
-    public ResponseEntity<Resource> getfile(@PathVariable String filename) throws IOException {
-
-        Resource file = storageService.loadAsResource(filename);
-        String contenType= Files.probeContentType(file.getFile().toPath());
-        return ResponseEntity
-        .ok()
-        .header(HttpHeaders.CONTENT_TYPE, contenType)
-        .body(file);
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("userId") Long userId,
+                                                          @RequestParam("locationId") Long locationId,
+                                                          @RequestParam("file") MultipartFile multipartFile) {
+        try {
+            // Guardar el archivo en la carpeta local
+            String path = storageService.store(multipartFile);
+            String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+            String url = ServletUriComponentsBuilder
+                .fromHttpUrl(host)
+                .path("/api/v1/photo/file/")
+                .path(path)
+                .toUriString();
+    
+            // Crear y guardar la entidad Photos en la base de datos
+            photos photo = new photos();
+            photo.setUser(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+            photo.setLocation(locationRepository.findById(locationId).orElseThrow(() -> new RuntimeException("Ubicación no encontrada")));
+            photo.setPhotoUrl(url);
+    
+            photos savedPhoto = photoService.savePhotourl(photo);
+    
+            return ResponseEntity.ok(Map.of("url", url, "id", String.valueOf(savedPhoto.getId())));
+        } catch (RuntimeException e) {
+            
+            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
+        }
     }
     
+   // Método para obtener un archivo por nombre
+   @GetMapping("/file/{filename:.+}")
+   public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException {
+       Resource file = storageService.loadAsResource(filename);
+       String contentType = Files.probeContentType(file.getFile().toPath());
+       return ResponseEntity
+           .ok()
+           .header(HttpHeaders.CONTENT_TYPE, contentType)
+           .body(file);
+   }
 
 
 }
