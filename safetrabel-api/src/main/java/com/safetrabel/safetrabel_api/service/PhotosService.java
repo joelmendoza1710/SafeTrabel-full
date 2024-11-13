@@ -4,32 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.util.Optional;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 
 
 import com.safetrabel.safetrabel_api.mapper.PhotosMapper;
-import com.safetrabel.safetrabel_api.model.dao.LocationDao;
 import com.safetrabel.safetrabel_api.model.dao.PhotosDao;
-import com.safetrabel.safetrabel_api.model.dao.UsuarioDao;
 import com.safetrabel.safetrabel_api.model.dto.PhotosDTO;
 import com.safetrabel.safetrabel_api.model.entity.photos;
 
-import jakarta.annotation.PostConstruct;
 
 @Service
 public class PhotosService  {

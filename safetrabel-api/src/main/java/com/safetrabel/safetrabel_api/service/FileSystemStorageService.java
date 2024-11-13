@@ -11,14 +11,17 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.safetrabel.safetrabel_api.model.dao.StorageService;
 
 import jakarta.annotation.PostConstruct;
 
+@Service
 public class FileSystemStorageService implements StorageService {
 
+    
     private Path rootLcation;
 
       @Value("${media.location}")

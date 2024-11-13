@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -121,8 +122,7 @@ public class PhotosController {
 
     //prueba para subir fotos 
 
-    @PostMapping("/upload")
-    public Map<String,String>uloadfile(@RequestParam("file")MultipartFile multipartFile){
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)    public Map<String,String>uloadfile(@RequestParam("file")MultipartFile multipartFile){
         String path = storageService.store(multipartFile);
         String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
         String url = ServletUriComponentsBuilder
