@@ -53,20 +53,17 @@ export class LoginComponent implements OnInit {
       this.loginError="";
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
         next: (userData) => {
+          sessionStorage.setItem('user', JSON.stringify(userData))
           this.agregaruser(userData)
           console.log(userData)
-          
+          this.toastService.showToast('Has iniciado sesión correctamente', 'success');
+          this.router.navigateByUrl('/administrador');
+          this.loginForm.reset();
         },
         error: (errorData) => {
           this.toastService.showToast('Error al iniciar sesión. Por favor, inténtalo de nuevo.', 'error');
           console.error(errorData);
           this.loginError=errorData;
-        },
-        complete: () => {
-          console.info("Login completo");
-          this.toastService.showToast('Has iniciado sesión correctamente', 'success');
-          this.router.navigateByUrl('/home');
-          this.loginForm.reset();
         }
       })
 

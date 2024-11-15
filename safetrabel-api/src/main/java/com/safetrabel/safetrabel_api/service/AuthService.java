@@ -1,5 +1,7 @@
 package com.safetrabel.safetrabel_api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +13,7 @@ import com.safetrabel.safetrabel_api.Jwt.JwtService;
 import com.safetrabel.safetrabel_api.mapper.UserMapper;
 import com.safetrabel.safetrabel_api.model.dao.UsuarioDao;
 import com.safetrabel.safetrabel_api.model.dto.UserDTO;
+import com.safetrabel.safetrabel_api.model.entity.locations;
 import com.safetrabel.safetrabel_api.model.entity.User.Role;
 import com.safetrabel.safetrabel_api.model.entity.User.User;
 import com.safetrabel.safetrabel_api.payload.AuthResponse;
@@ -26,7 +29,16 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+
+
+
+    
     private AuthenticationManager authenticationManager;
+
+       public List<User> getAllLocations() {
+        return usuarioDao.findAll();
+    }
+
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(

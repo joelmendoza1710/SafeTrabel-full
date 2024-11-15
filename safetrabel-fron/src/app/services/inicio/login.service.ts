@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginService {
 
-  datoslogin:any;
+  private datoslogin: BehaviorSubject<any> = new BehaviorSubject({});
   private _user: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -34,8 +34,6 @@ export class LoginService {
     );
   }
   register(dataRegister:RegisterRequest):Observable<any>{
-    
-
     return this.http.post<any>(environment.urlHost+"auth/register",dataRegister)
 
   }
@@ -57,18 +55,15 @@ export class LoginService {
   }
 
    adduser(dato:any){
-    this.datoslogin= dato
+    this.datoslogin.next(dato);
   }
 
   get user$(): Observable<any> {
     return this._user.asObservable();
 }
 
-  
-
-  get datoslogins(){
-    
-    return this.datoslogin
+  datoslogins(){  
+    return this.datoslogin.asObservable();
   }
 
   get userData():Observable<String>{

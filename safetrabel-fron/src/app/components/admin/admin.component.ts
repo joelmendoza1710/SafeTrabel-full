@@ -21,29 +21,26 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AdminComponent implements OnInit {
  menuname : any
+ user: any;
 
  constructor(private menuservice:MenuVerticalService,private loginService: LoginService){
-  console.log(this.datosuser)
-
  }
   
  get datosmenu(){
    return  this.menuservice.datosmenu;
  }
- get datosuser(){
-  return this.loginService.datoslogins;
+ getdatosuser(){
+  const session = sessionStorage.getItem('user');
+  if(session)
+    this.user = JSON.parse(session)
  }
  ngOnInit(): void {
+  this.getdatosuser();
    this.menuname= this.datosmenu
-   console.log(this.datosuser)
+   console.log(this.user)
     
  }
  @ViewChild('userMenu') userMenu!: ElementRef;
-
-  user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com'
-  };
 
   isUserMenuOpen = false;
 
