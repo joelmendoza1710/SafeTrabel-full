@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { ReviewsModalComponent } from '../reviews-modal/reviews-modal.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { UsermodalComponent } from '../usermodal/usermodal.component';
-import { MatDialog } from '@angular/material/dialog';
-
 
 interface User {
   id: number;
@@ -18,21 +17,21 @@ interface User {
   role: string;
   createdAt: Date;
 }
+
 @Component({
-  selector: 'app-user-table',
+  selector: 'app-reviews-table',
   standalone: true,
-  imports: [ CommonModule,
+  imports: [CommonModule,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
-  ],
-  templateUrl: './user-table.component.html',
-  styleUrl: './user-table.component.scss'
+    MatIconModule],
+  templateUrl: './reviews-table.component.html',
+  styleUrl: './reviews-table.component.scss'
 })
-export class UserTableComponent implements OnInit{
+export class ReviewsTableComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
   displayedUsers: User[] = [];
@@ -98,7 +97,7 @@ export class UserTableComponent implements OnInit{
  
 
   agregarNuevoUsuario() {
-    const dialogRef = this.dialog.open(UsermodalComponent, {
+    const dialogRef = this.dialog.open(ReviewsModalComponent, {
       width: '500px'
     });
 
@@ -112,7 +111,7 @@ export class UserTableComponent implements OnInit{
   }
 
   editarUsuario(usuario: any) {
-    const dialogRef = this.dialog.open(UsermodalComponent, {
+    const dialogRef = this.dialog.open(ReviewsModalComponent, {
       width: '500px',
       data: usuario
     });
@@ -125,5 +124,4 @@ export class UserTableComponent implements OnInit{
       }
     });
   }
-
 }

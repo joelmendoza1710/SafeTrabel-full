@@ -53,7 +53,9 @@ export class LoginComponent implements OnInit {
       this.loginError="";
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
         next: (userData) => {
-          console.log(userData);
+          this.agregaruser(userData)
+          console.log(userData)
+          
         },
         error: (errorData) => {
           this.toastService.showToast('Error al iniciar sesión. Por favor, inténtalo de nuevo.', 'error');
@@ -73,6 +75,11 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       alert("Error al ingresar los datos.");
     }
+  }
+
+
+  agregaruser(dato:any){
+    this.loginService.adduser(dato);
   }
 
 }

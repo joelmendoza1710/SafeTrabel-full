@@ -29,7 +29,7 @@ export class LoginService {
         this.currentUserData.next(userData.token);
         this.currentUserLoginOn.next(true);
       }),
-      map((userData)=> userData.token),
+      map((userData)=> userData.result),
       catchError(this.handleError)
     );
   }
@@ -42,6 +42,7 @@ export class LoginService {
 
   logout():void{
     sessionStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     this.currentUserLoginOn.next(false);
   }
 
@@ -55,13 +56,17 @@ export class LoginService {
     return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
   }
 
+   adduser(dato:any){
+    this.datoslogin= dato
+  }
+
   get user$(): Observable<any> {
     return this._user.asObservable();
 }
 
   
 
-  get datoslogins():Observable<any>{
+  get datoslogins(){
     
     return this.datoslogin
   }

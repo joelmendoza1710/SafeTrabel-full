@@ -1,25 +1,29 @@
-<div class="min-h-screen bg-green-100">
-    <!-- Header -->
-    <app-navbar></app-navbar>
+<div class="flex h-screen bg-white">
+  <app-side-menu></app-side-menu>
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <header class="bg-green-800 text-white py-4 px-6 flex justify-between items-center">
+      <h1 class="text-2xl font-bold"></h1>
+      
+      <!-- User Menu -->
+      <div class="relative" #userMenu>
+        <button (click)="toggleUserMenu()" class="flex items-center space-x-2 focus:outline-none">
+          <img class="h-8 w-8 rounded-full object-cover" src="https://via.placeholder.com/150" alt="User avatar">
+          <div class="text-sm text-left">
+            <p class="font-semibold">{{ datosuser }}</p>
+            <p class="text-xs text-green-200">{{ datosuser }}</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
 
-    <!-- Main content -->
-    <div class="flex">
-      <!-- Sidebar -->
-      <app-menu-vertical></app-menu-vertical>
-    
-
-      <!-- Main content area -->
-      <main class="flex-1 p-8">
-
-        @if (menuname==='Dashboard') {
-            <app-dashboard></app-dashboard>
-
-        }
-        @if (menuname==='Users') {
-            <app-user></app-user>
-
-        }
        
-      </main>
-    </div>
+      </div>
+    </header>
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+      <div class="container mx-auto px-6 py-8">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
   </div>
+</div>
