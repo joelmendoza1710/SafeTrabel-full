@@ -1,0 +1,33 @@
+<div class="container mx-auto p-4 bg-white">
+
+  <div *ngIf="!selectedDestination" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let destination of destinations" class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <img [src]="destination.image" [alt]="destination.name" class="w-full h-48 object-cover" />
+      <div class="p-4">
+        <h2 class="text-xl font-bold mb-2">{{ destination.name }}</h2>
+        <p class="text-gray-600 mb-2">Calificación: {{ destination.rating.toFixed(1) }}</p>
+        <a [routerLink]="['/destination', destination.id]" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+          Ver detalles
+        </a>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div *ngIf="selectedDestination" class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <img [src]="selectedDestination.image" [alt]="selectedDestination.name" class="w-full h-64 object-cover" />
+    <div class="p-4">
+      <h1 class="text-3xl font-bold mb-4">{{ selectedDestination.name }}</h1>
+      <p class="text-gray-600 mb-4">{{ selectedDestination.description }}</p>
+      <p class="text-xl mb-4">Calificación: {{ selectedDestination.rating.toFixed(1) }}</p>
+
+      <a [routerLink]="['/rate-destination', selectedDestination.id]" class="bg-green-600 text-white px-2 py-2 rounded hover:bg-green-700 transition duration-300 ml-2">
+        Calificar y opinar
+      </a>
+
+      <a routerLink="/" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300 ml-2">
+        Volver a la lista
+      </a>
+    </div>
+  </div>
+</div>

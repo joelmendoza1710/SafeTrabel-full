@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
-import { PopularDestinationsComponent } from './components/popular-destinations/popular-destinations.component';
 import { RecentReviewsComponent } from './components/recent-reviews/recent-reviews.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -17,7 +16,7 @@ import { ToastComponent } from './shared/toast/toast.component';
   imports: [
     RouterOutlet,
     ToastComponent
-    
+
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss', providers: [
@@ -26,7 +25,7 @@ import { ToastComponent } from './shared/toast/toast.component';
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
     {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true}
   ],
-  
+
 })
 export class AppComponent {
   title = 'Safe Travel';
