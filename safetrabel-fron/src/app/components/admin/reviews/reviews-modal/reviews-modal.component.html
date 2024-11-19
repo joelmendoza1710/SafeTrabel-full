@@ -2,14 +2,36 @@
   <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Reseña' : 'Crear Reseña' }}</h2>
   <form [formGroup]="formularioReviews" (ngSubmit)="onSubmit()">
     <div class="mb-4">
-      <label for="idusuario" class="block text-sm font-medium text-gray-700 mb-1">Id Usuario</label>
-      <input type="number" id="idusuario" formControlName="user" 
-             class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+      <label for="user" class="block text-sm font-medium text-gray-700 mb-1"
+        >Id Usuario</label
+      >
+      <select
+        id="user"
+        formControlName="user"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+      >
+      @for (item of users; track $index) {
+        <option value="{{item.id}}">{{item.name}}</option>
+
+      }
+       
+      </select>
     </div>
     <div class="mb-4">
-      <label for="idlocation" class="block text-sm font-medium text-gray-700 mb-1">Id localizacion</label>
-      <input type="number" id="idlocation" formControlName="location" 
-             class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+      <label for="location" class="block text-sm font-medium text-gray-700 mb-1"
+        >Id localizacion</label
+      >
+      <select
+        id="location"
+        formControlName="location"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+      >
+      @for (item of locations; track $index) {
+        <option value="{{item.id}}">{{item.name}}</option>
+
+      }
+       
+      </select>
     </div>
     <div class="mb-4">
       <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comentario</label>

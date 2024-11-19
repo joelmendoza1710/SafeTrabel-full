@@ -14,6 +14,8 @@ import { Irevieews, Ireviewsupdate } from '../reviewsType';
 import { ToastService } from '../../../../shared/toast/toast.service';
 import { JwtInterceptorService } from '../../../../services/inicio/jwt-interceptor.service';
 import { ErrorInterceptorService } from '../../../../services/inicio/error-interceptor.service';
+import { LocationService } from '../../location/location.service';
+import { UserService } from '../../user/user.service';
 
 
 interface User {
@@ -32,7 +34,7 @@ interface User {
     MatDialogClose, MatButtonModule,HttpClientModule,
   ],
   providers: [
-    ReviewsService,
+    ReviewsService,UserService,LocationService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
@@ -52,11 +54,15 @@ interface User {
 export class ReviewsModalComponent {
   formularioReviews: FormGroup;
   modoEdicion: boolean;
+  users:any;
+  locations:any
 
   constructor(
     private  _reviewsService: ReviewsService,
     private fb: FormBuilder,
     private toastService: ToastService,
+    private _UserService:UserService,
+    private _LocationService:LocationService,
     private _changeDetectorRef: ChangeDetectorRef,
     private dialogRef: MatDialogRef<ReviewsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any

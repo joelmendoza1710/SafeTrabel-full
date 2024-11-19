@@ -7,6 +7,8 @@ import { Iphotos } from '../photosTyoe';
 import { Ilocation } from '../../location/locationType';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
+import { UserService } from '../../user/user.service';
+import { LocationService } from '../../location/location.service';
 
 @Component({
   selector: 'app-photos-modal',
@@ -14,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [FormsModule,ReactiveFormsModule,MatDialogTitle,
     MatDialogContent, MatDialogActions,
     MatDialogClose, MatButtonModule,    HttpClientModule,],
-    providers: [PhotosService],
+    providers: [PhotosService,UserService,LocationService],
 
   templateUrl: './photos-modal.component.html',
   styleUrl: './photos-modal.component.scss'
@@ -24,15 +26,21 @@ export class PhotosModalComponent {
   modoEdicion: boolean;
   selectedFile: File | undefined ;
   imagePreview: string | null = null;
+  users:any;
+  locations:any
 
   constructor(
     private fb: FormBuilder,
     private _changeDetectorRef: ChangeDetectorRef,
     private toastService: ToastService,
     private _PhotosService:PhotosService,
+    private _UserService:UserService,
+    private _LocationService:LocationService,
     private dialogRef: MatDialogRef<PhotosModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.getalluser();
+    this.getalllocation();
     this.modoEdicion = !!data;
     this.formularioLocation = this.fb.group({
       file: [data?.photoUrl || '', Validators.required],
@@ -40,6 +48,37 @@ export class PhotosModalComponent {
       user: [ data?.user.id, [Validators.required]],
       
     });
+  }
+
+  //tarer todos los usuarios de la api
+  getalluser(){
+    this._UserService.getlistUser().subscribe({
+      next: (datos)=>{
+        this.users= datos;
+        console.log(this.users);
+
+      },
+      error (error){
+        console.log(error);
+
+      }
+    })
+
+  }
+  //tarer todas las localizaciones de la base de datos
+  getalllocation(){
+    this._LocationService.getlislocation().subscribe({
+      next: (datos)=>{
+        this.locations= datos;
+        console.log(this.locations);
+
+      },
+      error (error){
+        console.log(error);
+
+      }
+    })
+
   }
 
   onSubmit() {
