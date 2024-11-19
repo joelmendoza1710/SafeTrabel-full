@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { LocationModalComponent } from '../location-modal/location-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -8,56 +8,61 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from '../../../../shared/toast/toast.service';
+import { LocationService } from '../location.service';
+import { HttpClientModule } from '@angular/common/http';
 
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-}
 @Component({
   selector: 'app-location-table',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule],
+    MatIconModule,
+    HttpClientModule,
+  ],
+  providers: [LocationService],
+
   templateUrl: './location-table.component.html',
-  styleUrl: './location-table.component.scss'
+  styleUrl: './location-table.component.scss',
 })
 export class LocationTableComponent {
-  users: User[] = [];
-  filteredUsers: User[] = [];
-  displayedUsers: User[] = [];
+  location: any[] = [];
+  filteredUsers: any[] = [];
+  displayedUsers: any[] = [];
   searchTerm: string = '';
   pageSize: number = 10;
   currentPage: number = 0;
 
+  constructor(
+    private dialog: MatDialog,
+    private _LocatitonService: LocationService,
+    private toastService: ToastService,
+    private _changeDetectorRef: ChangeDetectorRef
+  ) {}
   ngOnInit() {
-    // Simular datos de usuario
-    this.users = Array(50).fill(0).map((_, index) => ({
-      id: index + 1,
-      username: `user${index + 1}`,
-      email: `user${index + 1}@example.com`,
-      password: 'password123',
-      role: index % 3 === 0 ? 'Admin' : 'User',
-      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
-    }));
-    this.filteredUsers = [...this.users];
-    this.updateDisplayedUsers();
+    this.getlistlocations();
+  }
+  getlistlocations() {
+    this._LocatitonService.getlislocation().subscribe({
+      next: (data) => {
+        this.location = data;
+        this.filteredUsers = this.location;
+        this.updateDisplayedUsers();
+      },
+    });
   }
 
   applyFilter() {
-    this.filteredUsers = this.users.filter(user =>
-      user.username.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.role.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.filteredUsers = this.location.filter(
+      (locations) =>
+        locations.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        locations.city.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        locations.country.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
     this.currentPage = 0;
     this.updateDisplayedUsers();
@@ -65,7 +70,10 @@ export class LocationTableComponent {
 
   updateDisplayedUsers() {
     const startIndex = this.currentPage * this.pageSize;
-    this.displayedUsers = this.filteredUsers.slice(startIndex, startIndex + this.pageSize);
+    this.displayedUsers = this.filteredUsers.slice(
+      startIndex,
+      startIndex + this.pageSize
+    );
   }
 
   onPageChange(event: any) {
@@ -74,55 +82,52 @@ export class LocationTableComponent {
     this.updateDisplayedUsers();
   }
 
-  addNewUser() {
-    // Implementar lógica para agregar nuevo usuario
-    console.log('Agregar nuevo usuario');
+  deletelocation(id: any) {
+    this._LocatitonService.delete(id).subscribe({
+      next: (data) => {},
+      error: (error) => {
+        this.toastService.showToast(
+          'Error al borrar la localizacion.',
+          'error'
+        );
+        console.log(error);
+      },
+      complete: () => {
+        this._changeDetectorRef.markForCheck();
+        this.getlistlocations();
+        this.toastService.showToast('localizacion Eliminada', 'success');
+      },
+    });
   }
-
-  editUser(user: User) {
-    // Implementar lógica para editar usuario
-    console.log('Editar usuario', user);
-  }
-
-  deleteUser(user: User) {
-    // Implementar lógica para eliminar usuario
-    console.log('Eliminar usuario', user);
-  }
-
 
   // ... propiedades existentes
 
-  constructor(private dialog: MatDialog) {}
-
- 
-
-  agregarNuevoUsuario() {
+  agregarNuevaLocations() {
     const dialogRef = this.dialog.open(LocationModalComponent, {
-      width: '500px'
+      width: '500px',
     });
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
         // Lógica para agregar nuevo usuario
-        console.log('Nuevo usuario:', resultado);
+        this.getlistlocations();
         // Actualizar el array de usuarios y refrescar la tabla
       }
     });
   }
 
-  editarUsuario(usuario: any) {
+  editarlocation(usuario: any) {
     const dialogRef = this.dialog.open(LocationModalComponent, {
       width: '500px',
-      data: usuario
+      data: usuario,
     });
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
         // Lógica para editar usuario
-        console.log('Usuario actualizado:', resultado);
+        this.getlistlocations();
         // Actualizar el array de usuarios y refrescar la tabla
       }
     });
   }
-
 }

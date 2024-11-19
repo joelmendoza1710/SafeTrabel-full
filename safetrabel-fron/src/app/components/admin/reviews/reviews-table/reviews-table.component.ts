@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { ReviewsService } from '../reviews.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastService } from '../../../../shared/toast/toast.service';
 
 interface User {
   id: number;
@@ -27,37 +30,47 @@ interface User {
     MatPaginatorModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule],
+    MatIconModule,
+    HttpClientModule,
+  ],
+    providers: [ReviewsService],
   templateUrl: './reviews-table.component.html',
   styleUrl: './reviews-table.component.scss'
 })
 export class ReviewsTableComponent {
-  users: User[] = [];
-  filteredUsers: User[] = [];
-  displayedUsers: User[] = [];
+  location: any[] = [];
+  filteredUsers: any[] = [];
+  displayedUsers: any[] = [];
   searchTerm: string = '';
   pageSize: number = 10;
   currentPage: number = 0;
+  constructor(private dialog: MatDialog,private _serviceReviews :ReviewsService,private _changeDetectorRef: ChangeDetectorRef,   private toastService: ToastService,) {}
 
   ngOnInit() {
-    // Simular datos de usuario
-    this.users = Array(50).fill(0).map((_, index) => ({
-      id: index + 1,
-      username: `user${index + 1}`,
-      email: `user${index + 1}@example.com`,
-      password: 'password123',
-      role: index % 3 === 0 ? 'Admin' : 'User',
-      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
-    }));
-    this.filteredUsers = [...this.users];
-    this.updateDisplayedUsers();
+   this.getlistreviews()
+   
+
+  }
+
+  getlistreviews(){
+    this._serviceReviews.getlistReviews().subscribe({
+      next:(data)=>{
+        this.location=data;
+        this.filteredUsers = this.location;
+        this.updateDisplayedUsers();
+
+      }
+    })
+
   }
 
   applyFilter() {
-    this.filteredUsers = this.users.filter(user =>
-      user.username.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.role.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.filteredUsers = this.location.filter(location =>
+      location.user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      location.location.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      location.rating.toLowerCase().includes(this.searchTerm.toLowerCase())||
+      location.comment.toLowerCase().includes(this.searchTerm.toLowerCase())
+
     );
     this.currentPage = 0;
     this.updateDisplayedUsers();
@@ -74,43 +87,49 @@ export class ReviewsTableComponent {
     this.updateDisplayedUsers();
   }
 
-  addNewUser() {
+  addNewreviews() {
     // Implementar lógica para agregar nuevo usuario
     console.log('Agregar nuevo usuario');
   }
 
-  editUser(user: User) {
+  editreviews(user: User) {
     // Implementar lógica para editar usuario
     console.log('Editar usuario', user);
   }
 
-  deleteUser(user: User) {
-    // Implementar lógica para eliminar usuario
-    console.log('Eliminar usuario', user);
+  deleteeviews(id: any) {
+    this._serviceReviews.delete(id).subscribe({
+      next: (data) => {},
+      error: (error) => {
+        this.toastService.showToast(
+          'Error al borrar la opiniones.',
+          'error'
+        );
+      },
+      complete: () => {
+        this._changeDetectorRef.markForCheck();
+        this.getlistreviews();
+        this.toastService.showToast('opiniones Eliminado', 'success');
+      },
+    });
   }
-
-
-  // ... propiedades existentes
-
-  constructor(private dialog: MatDialog) {}
 
  
 
-  agregarNuevoUsuario() {
+  agregareviews() {
     const dialogRef = this.dialog.open(ReviewsModalComponent, {
       width: '500px'
     });
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
-        // Lógica para agregar nuevo usuario
-        console.log('Nuevo usuario:', resultado);
-        // Actualizar el array de usuarios y refrescar la tabla
+        this.getlistreviews();
+
       }
     });
   }
 
-  editarUsuario(usuario: any) {
+  editareviews(usuario: any) {
     const dialogRef = this.dialog.open(ReviewsModalComponent, {
       width: '500px',
       data: usuario
@@ -118,9 +137,8 @@ export class ReviewsTableComponent {
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
-        // Lógica para editar usuario
-        console.log('Usuario actualizado:', resultado);
-        // Actualizar el array de usuarios y refrescar la tabla
+        this.getlistreviews();
+
       }
     });
   }

@@ -1,28 +1,31 @@
 <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-auto">
-  <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
-  <form [formGroup]="formularioUsuario" (ngSubmit)="onSubmit()">
+  <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Reseña' : 'Crear Reseña' }}</h2>
+  <form [formGroup]="formularioReviews" (ngSubmit)="onSubmit()">
     <div class="mb-4">
-      <label for="nombreUsuario" class="block text-sm font-medium text-gray-700 mb-1">Nombre de Usuario</label>
-      <input type="text" id="nombreUsuario" formControlName="nombreUsuario" 
+      <label for="idusuario" class="block text-sm font-medium text-gray-700 mb-1">Id Usuario</label>
+      <input type="number" id="idusuario" formControlName="user" 
              class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
     </div>
     <div class="mb-4">
-      <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-      <input type="email" id="email" formControlName="email" 
+      <label for="idlocation" class="block text-sm font-medium text-gray-700 mb-1">Id localizacion</label>
+      <input type="number" id="idlocation" formControlName="location" 
              class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
     </div>
     <div class="mb-4">
-      <label for="contrasena" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-      <input type="password" id="contrasena" formControlName="contrasena" 
+      <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comentario</label>
+      <input type="text" id="comment" formControlName="comment" 
              class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
     </div>
     <div class="mb-4">
-      <label for="rol" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
-      <select id="rol" formControlName="rol" 
+      <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Calificacion</label>
+      <select id="rating" formControlName="rating" 
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
-        <option value="Administrador">Administrador</option>
-        <option value="Editor">Editor</option>
-        <option value="Usuario">Usuario</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
       </select>
     </div>
     <div class="flex justify-end space-x-2">
@@ -30,10 +33,24 @@
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
         Cancelar
       </button>
-      <button type="submit" 
-              class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-        {{ modoEdicion ? 'Actualizar' : 'Crear' }}
-      </button>
+      @if (modoEdicion) {
+        <button
+          type="submit"
+          (click)="updateRevies()"
+          class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Actualizar
+        </button>
+        }@else {
+        <button
+          type="submit"
+          (click)="addReviews()"
+          class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Crear
+        </button>
+  
+        }
     </div>
   </form>
 </div>

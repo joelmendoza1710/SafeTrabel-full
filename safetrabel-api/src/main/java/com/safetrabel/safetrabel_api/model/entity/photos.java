@@ -45,6 +45,7 @@ public class photos {
     private String photoUrl;
 
     @Column(name = "uploaded_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Builder.Default 
     private ZonedDateTime uploadedAt = ZonedDateTime.now();  // Valor por defecto
 
     

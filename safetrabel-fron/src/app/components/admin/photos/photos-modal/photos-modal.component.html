@@ -1,32 +1,21 @@
 <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-auto">
-    <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Localizacion' : 'Crear Localizacion' }}</h2>
+    <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Foto' : 'Crear Foto' }}</h2>
     <form [formGroup]="formularioLocation" (ngSubmit)="onSubmit()">
       <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-        <input type="text" id="name" formControlName="name" 
+        <label for="user" class="block text-sm font-medium text-gray-700 mb-1">Id Usuario</label>
+        <input type="number"  id="user" formControlName="user" 
                class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
       </div>
       <div class="mb-4">
-        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
-        <input type="text" id="city" formControlName="city" 
+        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Id localizacion</label>
+        <input type="number" id="location" formControlName="location" 
                class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
       </div>
       <div class="mb-4">
-        <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Pais</label>
-        <input type="text" id="country" formControlName="country" 
+        <label for="file" class="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+        <input type="file" (change)="onFileSelected($event)" id="file" formControlName="file" 
                class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
       </div>
-      <div class="mb-4">
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripcion</label>
-        <input type="text" id="description" formControlName="description" 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
-      </div>
-      <div class="mb-4">
-        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Direccion</label>
-        <input type="text" id="address" formControlName="address" 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
-      </div>
-    
       <div class="flex justify-end space-x-2">
         <button type="button" (click)="onCancelar()" 
                 class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -35,7 +24,7 @@
         @if (modoEdicion) {
           <button
             type="submit"
-            (click)="upodateLocation()"
+            (click)="upodatephoto()"
             class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             Actualizar
@@ -43,7 +32,7 @@
           }@else {
           <button
             type="submit"
-            (click)="addLocation()"
+            (click)="addPhoto()"
             class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             Crear

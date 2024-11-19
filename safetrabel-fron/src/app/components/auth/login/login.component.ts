@@ -57,7 +57,13 @@ export class LoginComponent implements OnInit {
           this.agregaruser(userData)
           console.log(userData)
           this.toastService.showToast('Has iniciado sesión correctamente', 'success');
-          this.router.navigateByUrl('/administrador');
+          if(userData.role=="ADMIN"){
+            this.router.navigateByUrl('/administrador');
+          }else{
+            this.router.navigateByUrl('/home');
+
+
+          }
           this.loginForm.reset();
         },
         error: (errorData) => {

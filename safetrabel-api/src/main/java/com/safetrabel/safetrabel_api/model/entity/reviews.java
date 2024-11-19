@@ -3,7 +3,6 @@ package com.safetrabel.safetrabel_api.model.entity;
 
 import java.time.ZonedDateTime;
 
-import org.springframework.beans.factory.parsing.Location;
 
 import com.safetrabel.safetrabel_api.model.entity.User.User;
 
@@ -51,6 +50,7 @@ public class reviews {
     private String comment;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Builder.Default
     private ZonedDateTime createdAt = ZonedDateTime.now();  // Valor por defecto
 
 }

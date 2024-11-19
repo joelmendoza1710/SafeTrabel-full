@@ -1,13 +1,14 @@
 import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { NavbarComponent } from './navbar/navbar.component';
-import { MenuVerticalComponent } from './menu-vertical/menu-vertical.component';
 import { CommonModule } from '@angular/common';
-import { MenuVerticalService } from './menu-vertical/menu-vertical.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/inicio/login.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MenuVerticalService } from './menu-vertical/menu-vertical.service';
+import { ToastService } from '../../shared/toast/toast.service';
+import { Iuser } from './user/userType';
 
 
 
@@ -21,9 +22,10 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AdminComponent implements OnInit {
  menuname : any
- user: any;
+ user: Iuser | any;
 
- constructor(private menuservice:MenuVerticalService,private loginService: LoginService){
+ constructor(private menuservice:MenuVerticalService,private loginService: LoginService, private router:Router,   private toastService: ToastService,
+ ){
  }
   
  get datosmenu(){
@@ -31,10 +33,29 @@ export class AdminComponent implements OnInit {
  }
  getdatosuser(){
   const session = sessionStorage.getItem('user');
-  if(session)
+  if(session){
     this.user = JSON.parse(session)
+  }
+  if(sessionStorage.getItem("token")){
+    if(this.user.role == "USER"){
+     this.toastService.showToast('Debe iniciar sesion como administrador.', 'error');
+     this.router.navigate(['/home'])
+
+
+
+    }
+
+ }else{
+   this.toastService.showToast('Debe iniciar sesion.', 'error');
+   this.router.navigate(['/login'])
+
+
+
  }
+ }
+
  ngOnInit(): void {
+ 
   this.getdatosuser();
    this.menuname= this.datosmenu
    console.log(this.user)

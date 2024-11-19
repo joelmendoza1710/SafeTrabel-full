@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { UserTableComponent } from './components/admin/user/user-table/user-table.component';
 import { ReviewsTableComponent } from './components/admin/reviews/reviews-table/reviews-table.component';
 import { LocationTableComponent } from './components/admin/location/location-table/location-table.component';
+import { PhotosTableComponent } from './components/admin/photos/photos-table/photos-table.component';
 
 export const routes: Route[] = [
     {
@@ -20,11 +21,13 @@ export const routes: Route[] = [
         path:'administrador',
         component: AdminComponent,
         children:[
-            //{ path: '', component: DashboardComponent },
+            { path: '', component: DashboardComponent },
             { path: 'users', component: UserTableComponent },
             { path: 'home', component: DashboardComponent },
             { path: 'reviews', component: ReviewsTableComponent },
             { path: 'location', component: LocationTableComponent },
+            { path: 'photos', component: PhotosTableComponent },
+
 
 
 

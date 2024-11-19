@@ -31,9 +31,9 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(name = "username", nullable = false)
-    String name;
     @Column(name = "email", nullable = false)
+    String name;
+    @Column(name = "username", nullable = false)
     String username;
     @Column(name = "password", nullable = false)
     String password;

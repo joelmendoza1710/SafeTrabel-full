@@ -7,6 +7,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoginService } from '../../../services/inicio/login.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastService } from '../../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
 export class SideMenuComponent {
   menuItems: MenuItem[] = [];
 
-  constructor(private menuService: MenuService,private router:Router, private loginService:LoginService) {}
+  constructor(private menuService: MenuService,private router:Router, private loginService:LoginService,    private toastService: ToastService,
+  ) {}
 
   ngOnInit() {
     this.menuItems = this.menuService.getMenuItems();
@@ -29,6 +31,7 @@ export class SideMenuComponent {
   {
     if(sessionStorage.getItem("token")){
       this.loginService.logout();
+      this.toastService.showToast('Sesion Cerrada', 'success');
       this.router.navigate(['/login'])
 
     }

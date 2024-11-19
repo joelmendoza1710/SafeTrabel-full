@@ -24,7 +24,7 @@ public class locations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Long id;
 
     @Column(nullable = false)
     String name;
@@ -42,6 +42,7 @@ public class locations {
     String address;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Builder.Default 
     private ZonedDateTime createdAt = ZonedDateTime.now();  // Definir valor por defecto
     
 

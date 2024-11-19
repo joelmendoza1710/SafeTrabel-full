@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetrabel.safetrabel_api.model.dto.ReviewDTO;
@@ -31,11 +32,13 @@ public class ReviewController {
 
     // Método para insertar una nueva reseña
     @PostMapping
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody reviews review) {
-        ReviewDTO savedReview = reviewService.saveReview(review);
-        return ResponseEntity.ok(savedReview);
+    public ResponseEntity<reviews> createReview(@RequestParam Long userId,
+                                               @RequestParam Long locationId,
+                                               @RequestParam int rating,
+                                               @RequestParam(required = false) String comment) {
+        reviews createdReview = reviewService.createReview(userId, locationId, rating, comment);
+        return ResponseEntity.ok(createdReview);
     }
-
     // Método para obtener todas las reseñas
     @GetMapping
     public List<ReviewDTO> getAllReviews() {
@@ -55,13 +58,11 @@ public class ReviewController {
 
     // Método para actualizar una reseña existente
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long id, @RequestBody reviews reviewDetails) {
-        try {
-            ReviewDTO updatedReview = reviewService.updateReview(id, reviewDetails);
-            return ResponseEntity.ok(updatedReview);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ReviewDTO> updateReview(
+            @PathVariable Long id,
+            @RequestBody ReviewDTO reviewDTO) {
+        ReviewDTO updatedReview = reviewService.updateReview(id, reviewDTO);
+        return ResponseEntity.ok(updatedReview);
     }
 
     // Método para eliminar una reseña por ID

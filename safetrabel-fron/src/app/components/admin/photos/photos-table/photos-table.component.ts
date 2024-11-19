@@ -1,27 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { PhotosModalComponent } from '../photos-modal/photos-modal.component';
+import { PhotosService } from '../photos.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastService } from '../../../../shared/toast/toast.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { UsermodalComponent } from '../usermodal/usermodal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { UserService } from '../user.service';
 import { HttpClientModule } from '@angular/common/http';
-import { ToastService } from '../../../../shared/toast/toast.service';
 
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-}
 @Component({
-  selector: 'app-user-table',
+  selector: 'app-photos-table',
   standalone: true,
   imports: [
     CommonModule,
@@ -33,45 +25,44 @@ interface User {
     MatIconModule,
     HttpClientModule,
   ],
-  providers: [UserService],
+  providers: [PhotosService],
 
-  templateUrl: './user-table.component.html',
-  styleUrl: './user-table.component.scss',
+  templateUrl: './photos-table.component.html',
+  styleUrl: './photos-table.component.scss'
 })
-export class UserTableComponent implements OnInit {
-  users: any[] = [];
+export class PhotosTableComponent {
+  photos: any[] = [];
   filteredUsers: any[] = [];
   displayedUsers: any[] = [];
   searchTerm: string = '';
   pageSize: number = 10;
   currentPage: number = 0;
+
   constructor(
     private dialog: MatDialog,
-    private _userService: UserService,
+    private _photosService: PhotosService,
     private toastService: ToastService,
     private _changeDetectorRef: ChangeDetectorRef
   ) {}
-
   ngOnInit() {
-    this.getlistuser();
+    this.getlistPhotos();
   }
-
-  getlistuser() {
-    this._userService.getlistUser().subscribe({
+  getlistPhotos() {
+    this._photosService.getlisPhotos().subscribe({
       next: (data) => {
-        this.users = data;
-        this.filteredUsers = this.users;
+        this.photos = data;
+        this.filteredUsers = this.photos;
         this.updateDisplayedUsers();
       },
     });
   }
 
   applyFilter() {
-    this.filteredUsers = this.users.filter(
-      (user) =>
-        user.username.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        user.role.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.filteredUsers = this.photos.filter(
+      (photo) =>
+        photo.location.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      photo.user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      photo.id.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
     this.currentPage = 0;
     this.updateDisplayedUsers();
@@ -91,58 +82,53 @@ export class UserTableComponent implements OnInit {
     this.updateDisplayedUsers();
   }
 
-  addNewUser() {
-    // Implementar lógica para agregar nuevo usuario
-    console.log('Agregar nuevo usuario');
-  }
-
-  editUser(user: User) {
-    // Implementar lógica para editar usuario
-    console.log('Editar usuario', user);
-  }
-
-  deleteUser(id: any) {
-    this._userService.delete(id).subscribe({
+  deletePhoto(id: any) {
+    this._photosService.delete(id).subscribe({
       next: (data) => {},
       error: (error) => {
         this.toastService.showToast(
-          'Error al borrar el usuario.' + error,
+          'Error al borrar la Foto.',
           'error'
         );
+        console.log(error);
       },
       complete: () => {
         this._changeDetectorRef.markForCheck();
-        this.getlistuser();
-        this.toastService.showToast('Usuario Eliminado', 'success');
+        this.getlistPhotos();
+        this.toastService.showToast('Foto Eliminada', 'success');
       },
     });
   }
 
   // ... propiedades existentes
 
-  agregarNuevoUsuario() {
-    const dialogRef = this.dialog.open(UsermodalComponent, {
+  agregarNuevaPhoto() {
+    const dialogRef = this.dialog.open(PhotosModalComponent, {
       width: '500px',
     });
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
-        this.getlistuser();
+        // Lógica para agregar nuevo usuario
+        this.getlistPhotos();
+        // Actualizar el array de usuarios y refrescar la tabla
       }
     });
   }
 
-  editarUsuario(usuario: any) {
-    const dialogRef = this.dialog.open(UsermodalComponent, {
+  editarPhoto(usuario: any) {
+    const dialogRef = this.dialog.open(PhotosModalComponent, {
       width: '500px',
       data: usuario,
     });
 
     dialogRef.afterClosed().subscribe((resultado: any) => {
       if (resultado) {
-        this.getlistuser();
-
+        // Lógica para editar usuario
+        this.getlistPhotos();
+        // Actualizar el array de usuarios y refrescar la tabla 
       }
     });
   }
+
 }

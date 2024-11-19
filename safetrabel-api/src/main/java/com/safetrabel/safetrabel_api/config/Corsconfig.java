@@ -16,8 +16,13 @@ public class Corsconfig {
                 .allowedOrigins("*")
                 .allowedMethods("*");
             }
+           
         };
     }
+
+    
+
+    
 
 
 }
