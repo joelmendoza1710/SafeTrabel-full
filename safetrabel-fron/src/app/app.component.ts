@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
-import { PopularDestinationsComponent } from './components/popular-destinations/popular-destinations.component';
 import { RecentReviewsComponent } from './components/recent-reviews/recent-reviews.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -18,7 +17,11 @@ import { ToastComponent } from './shared/toast/toast.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ToastComponent],
+  imports: [
+    RouterOutlet,
+    ToastComponent
+
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [
