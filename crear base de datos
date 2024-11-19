@@ -1,0 +1,39 @@
+query para crear la base de datos en postgres
+
+create table users (
+  id bigint primary key generated always as identity,
+  username text not null unique,
+  email text not null unique,
+  password text not null,
+  created_at timestamp with time zone default now()
+);
+
+create table locations (
+  id bigint primary key generated always as identity,
+  name text not null,
+  address text,
+  city text,
+  country text,
+  description text,
+  created_at timestamp with time zone default now()
+);
+
+create table reviews (
+  id bigint primary key generated always as identity,
+  user_id bigint references users (id) on delete cascade,
+  location_id bigint references locations (id) on delete cascade,
+  rating int not null check (
+    rating >= 1
+    and rating <= 5
+  ),
+  comment text,
+  created_at timestamp with time zone default now()
+);
+
+create table photos (
+  id bigint primary key generated always as identity,
+  location_id bigint references locations (id) on delete cascade,
+  user_id bigint references users (id) on delete cascade,
+  photo_url text not null,
+  uploaded_at timestamp with time zone default now()
+);
