@@ -14,7 +14,7 @@ import { ToastService } from '../../../shared/toast/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers:[LoginService] ,
   imports: [CommonModule, FormsModule,
-    ReactiveFormsModule,HttpClientModule],
+    ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

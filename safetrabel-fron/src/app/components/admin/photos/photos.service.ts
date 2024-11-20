@@ -22,6 +22,9 @@ export class PhotosService {
   getlisPhotos(): Observable<any> {
     return this._httpClient.get(this.myapiUrl);
   }
+  getlisPhotosByuser(iduser:any): Observable<any> {
+    return this._httpClient.get(this.myapiUrl+"/user"+"/"+iduser);
+  }
 
   savePhotos(form: Iphotos): Observable<any> {
     return this._httpClient.post<any>(this.myapiUrl, form);

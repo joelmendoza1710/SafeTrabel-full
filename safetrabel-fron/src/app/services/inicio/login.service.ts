@@ -40,7 +40,7 @@ export class LoginService {
 
   logout():void{
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+     sessionStorage.removeItem("user");
 
     localStorage.removeItem("accessToken");
     this.currentUserLoginOn.next(false);

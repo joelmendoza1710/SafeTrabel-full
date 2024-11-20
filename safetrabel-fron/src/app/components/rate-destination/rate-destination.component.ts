@@ -1,67 +1,158 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute } from '@angular/router';
-
-interface Destination{
-  id: number;
-  name: string;
-  description: string;
-  rating: number;
-  image: string;
-}
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { PhotosService } from '../admin/photos/photos.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { ReviewsService } from '../admin/reviews/reviews.service';
+import { Irevieews } from '../admin/reviews/reviewsType';
+import { ToastService } from '../../shared/toast/toast.service';
+import { Iuser } from '../admin/user/userType';
 
 @Component({
   selector: 'app-rate-destination',
   standalone: true,
-  imports: [CommonModule,FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    HeaderComponent,
+    FooterComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './rate-destination.component.html',
-  styleUrl: './rate-destination.component.scss'
+  providers: [PhotosService, ReviewsService],
+  styleUrl: './rate-destination.component.scss',
 })
-
 export class RateDestinationComponent implements OnInit {
   destinationId!: number;
-  selectedDestination!: Destination | undefined;
-  userRating: number = 0;
-  visitDate: string = '';
-  reviewTitle: string = '';
-  reviewContent: string = '';
   uploadedImage: File | null = null;
+  userRating = signal(0);
+  visitDate = '';
+  reviewTitle = '';
+  reviewContent = '';
+  destinations: any[] = [];
+  selectedDestination: any;
+  reviewForm: FormGroup;
+  user: Iuser | any;
+  selectedFile: File | undefined;
+  imagePreview: string | null = null;
 
-  destinations: Destination[] = [
-    { id: 1, name: 'Paris, France', image: '/placeholder.svg?height=200&width=300', rating: 4.5, description: 'La ciudad del amor' },
-    { id: 2, name: 'Rome, Italy', image: '/placeholder.svg?height=200&width=300', rating: 4.7, description: 'La ciudad eterna' },
-    { id: 3, name: 'Tokyo, Japan', image: '/placeholder.svg?height=200&width=300', rating: 4.6, description: 'La metropolis' },
-  ];
+  constructor(
+    private route: ActivatedRoute,
+    private _PhotosService: PhotosService,
+    private fb: FormBuilder,
+    private _reviwesService: ReviewsService,
+    private toastService: ToastService,
+    private _changeDetectorRef: ChangeDetectorRef,
+    private router:Router
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.destinationId = +params['id'];
-      this.selectedDestination = this.destinations.find(d => d.id === this.destinationId);
+  ) {
+    this.reviewForm = this.fb.group({
+      rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
+      reviewContent: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
 
-  onFileSelected(event: any): void {
-    this.uploadedImage = event.target.files[0];
+  ngOnInit(): void {
+    this.getallphotosByuser();
   }
 
-  submitRating(): void {
-    if (this.selectedDestination && this.userRating > 0) {
-      console.log(`Calificación de ${this.userRating} enviada para ${this.selectedDestination.name}`);
-      console.log(`Fecha de visita: ${this.visitDate}`);
-      console.log(`Título de la opinión: ${this.reviewTitle}`);
-      console.log(`Contenido de la opinión: ${this.reviewContent}`);
-      if (this.uploadedImage) {
-        console.log(`Imagen subida: ${this.uploadedImage.name}`);
+  setRating(rating: number) {
+    this.reviewForm.patchValue({ rating });
+  }
+
+  submitRating() {
+    this.addReviews();
+  }
+  getallphotosByuser() {
+    this._PhotosService.getlisPhotosByuser(10).subscribe({
+      next: (datos) => {
+        this.destinations = datos;
+
+        this.route.params.subscribe((params) => {
+          this.destinationId = +params['id'];
+          this.selectedDestination = this.destinations.find(
+            (d) => d.id === this.destinationId
+          );
+        });
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
+  }
+
+  addReviews() {
+    if (this.reviewForm) {
+      const session = sessionStorage.getItem('user');
+      if (session) {
+        this.user = JSON.parse(session);
       }
-      // Aquí puedes agregar la lógica para enviar la calificación y la opinión a tu backend
-      this.selectedDestination.rating = (this.selectedDestination.rating + this.userRating) / 2;
-      this.userRating = 0;
-      this.visitDate = '';
-      this.reviewTitle = '';
-      this.reviewContent = '';
-      this.uploadedImage = null;
-    }}
+      this.route.params.subscribe((params) => {
+        this.destinationId = +params['id'];
+        this.selectedDestination = this.destinations.find(
+          (d) => d.id === this.destinationId
+        );
+      });
+      const datosrevies: Irevieews = {
+        user: this.user.id,
+        location: this.destinationId,
+        rating: this.reviewForm.value.rating,
+        comment: this.reviewForm.value.reviewContent,
+      };
+
+      this._reviwesService.saveReviews(datosrevies).subscribe({
+        next: (datos) => {
+          this._PhotosService
+            .uploadFile(
+              datosrevies.user,
+              datosrevies.location,
+              this.selectedFile
+            )
+            .subscribe({
+              complete: () => {
+                console.log('foto subida');
+              },
+            }),
+            this._changeDetectorRef.markForCheck();
+        },
+        error: (error) => {
+          this.toastService.showToast('Error al crear la reseña.', 'error');
+          console.log(error);
+        },
+        complete: () => {
+          this.toastService.showToast('Reseña Creada', 'success');
+          this.reviewForm.reset();
+          this.router.navigateByUrl('/home/');
+
+          this._changeDetectorRef.markForCheck();
+        },
+      });
+    } else {
+      alert('Error al ingresar los datos.');
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+
+      // Generar la vista previa de la imagen
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 }

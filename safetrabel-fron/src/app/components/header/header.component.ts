@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [UserMenuComponent,HttpClientModule],
+  imports: [UserMenuComponent],
   providers:[LoginService] ,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

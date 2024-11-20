@@ -12,7 +12,7 @@ import { ToastService } from '../../../shared/toast/toast.service';
   standalone: true,
   providers:[LoginService] ,
   imports: [CommonModule, FormsModule,
-    ReactiveFormsModule,HttpClientModule],
+    ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

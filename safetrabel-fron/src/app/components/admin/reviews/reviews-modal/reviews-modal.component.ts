@@ -31,21 +31,11 @@ interface User {
   standalone: true,
   imports: [FormsModule,ReactiveFormsModule,MatDialogTitle,
     MatDialogContent, MatDialogActions,
-    MatDialogClose, MatButtonModule,HttpClientModule,
+    MatDialogClose, MatButtonModule,
   ],
   providers: [
     ReviewsService,UserService,LocationService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptorService,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptorService,
-      multi: true,
-    },
+    
   ],
 
   templateUrl: './reviews-modal.component.html',
@@ -67,6 +57,9 @@ export class ReviewsModalComponent {
     private dialogRef: MatDialogRef<ReviewsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.getalluser();
+    this.getalllocation();
+
     this.modoEdicion = !!data;
     this.formularioReviews = this.fb.group({
       user: [data?.user.id || '', Validators.required],
@@ -74,6 +67,37 @@ export class ReviewsModalComponent {
       comment: [data?.comment|| '',[Validators.required,  ]],
       rating: [data?.rating || '1', Validators.required]
     });
+  }
+
+   //tarer todos los usuarios de la api
+   getalluser(){
+    this._UserService.getlistUser().subscribe({
+      next: (datos)=>{
+        this.users= datos;
+        console.log(this.users);
+
+      },
+      error (error){
+        console.log(error);
+
+      }
+    })
+
+  }
+  //tarer todas las localizaciones de la base de datos
+  getalllocation(){
+    this._LocationService.getlislocation().subscribe({
+      next: (datos)=>{
+        this.locations= datos;
+        console.log(this.locations);
+
+      },
+      error (error){
+        console.log(error);
+
+      }
+    })
+
   }
 
   onSubmit() {

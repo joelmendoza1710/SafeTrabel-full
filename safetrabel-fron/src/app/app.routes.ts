@@ -12,6 +12,7 @@ import { LocationTableComponent } from './components/admin/location/location-tab
 import { DestinationComponent } from './components/destination/destination.component';
 import path from 'path';
 import { RateDestinationComponent } from './components/rate-destination/rate-destination.component';
+import { PhotosTableComponent } from './components/admin/photos/photos-table/photos-table.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -24,6 +25,8 @@ export const routes: Routes = [
       { path: 'home', component: DashboardComponent },
       { path: 'reviews', component: ReviewsTableComponent },
       { path: 'location', component: LocationTableComponent },
+      { path: 'photos', component: PhotosTableComponent },
+
     ]
   },
   { path: 'home', component: HomeComponent },
