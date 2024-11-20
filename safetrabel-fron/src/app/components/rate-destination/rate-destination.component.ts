@@ -59,6 +59,7 @@ export class RateDestinationComponent implements OnInit {
     this.reviewForm = this.fb.group({
       rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
       reviewContent: ['', [Validators.required, Validators.minLength(5)]],
+      imageUpload: ['',]
     });
   }
 
@@ -81,7 +82,7 @@ export class RateDestinationComponent implements OnInit {
         this.route.params.subscribe((params) => {
           this.destinationId = +params['id'];
           this.selectedDestination = this.destinations.find(
-            (d) => d.id === this.destinationId
+            (d) => d.location.id === this.destinationId
           );
         });
       },
@@ -96,7 +97,7 @@ export class RateDestinationComponent implements OnInit {
       const session = sessionStorage.getItem('user');
       if (session) {
         this.user = JSON.parse(session);
-      }
+      
       this.route.params.subscribe((params) => {
         this.destinationId = +params['id'];
         this.selectedDestination = this.destinations.find(
@@ -132,11 +133,16 @@ export class RateDestinationComponent implements OnInit {
         complete: () => {
           this.toastService.showToast('Reseña Creada', 'success');
           this.reviewForm.reset();
-          this.router.navigateByUrl('/home/');
+          this.router.navigateByUrl('/home');
 
           this._changeDetectorRef.markForCheck();
         },
       });
+    }else{
+      this.toastService.showToast('Debe Inicar Sesion ', 'error');
+
+
+    }
     } else {
       alert('Error al ingresar los datos.');
     }

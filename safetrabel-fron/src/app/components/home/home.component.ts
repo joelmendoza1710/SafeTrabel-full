@@ -6,6 +6,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { DestinationComponent } from '../destination/destination.component';
 import { ReviewsService } from '../admin/reviews/reviews.service';
 import { PhotosService } from '../admin/photos/photos.service';
+import { RecentReviewsComponent } from '../recent-reviews/recent-reviews.component';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import { PhotosService } from '../admin/photos/photos.service';
   imports: [ CommonModule,
     HeaderComponent,
     SearchComponent,
-    FooterComponent,DestinationComponent],
+    FooterComponent,DestinationComponent,RecentReviewsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

@@ -2,57 +2,70 @@
   <h2 class="text-2xl font-bold text-green-800 mb-4">{{ modoEdicion ? 'Editar Reseña' : 'Crear Reseña' }}</h2>
   <form [formGroup]="formularioReviews" (ngSubmit)="onSubmit()">
     <div class="mb-4">
-      <label for="user" class="block text-sm font-medium text-gray-700 mb-1"
-        >Id Usuario</label
-      >
+      <label for="user" class="block text-sm font-medium text-gray-700 mb-1">Id Usuario</label>
       <select
         id="user"
         formControlName="user"
         class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
       >
-      @for (item of users; track $index) {
-        <option value="{{item.id}}">{{item.name}}</option>
-
-      }
-       
+        @for (item of users; track $index) {
+          <option value="{{item.id}}">{{item.name}}</option>
+        }
       </select>
+      @if (formularioReviews.get('user')?.invalid && (formularioReviews.get('user')?.dirty || formularioReviews.get('user')?.touched)) {
+        <p class="mt-1 text-xs text-red-600">Este campo es requerido</p>
+      }
     </div>
     <div class="mb-4">
-      <label for="location" class="block text-sm font-medium text-gray-700 mb-1"
-        >Id localizacion</label
-      >
+      <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Id localizacion</label>
       <select
         id="location"
         formControlName="location"
         class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
       >
-      @for (item of locations; track $index) {
-        <option value="{{item.id}}">{{item.name}}</option>
-
-      }
-       
+        @for (item of locations; track $index) {
+          <option value="{{item.id}}">{{item.name}}</option>
+        }
       </select>
+      @if (formularioReviews.get('location')?.invalid && (formularioReviews.get('location')?.dirty || formularioReviews.get('location')?.touched)) {
+        <p class="mt-1 text-xs text-red-600">Este campo es requerido</p>
+      }
     </div>
     <div class="mb-4">
       <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Comentario</label>
-      <input type="text" id="comment" formControlName="comment" 
-             class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+      <input 
+        type="text" 
+        id="comment" 
+        formControlName="comment" 
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+      >
+      @if (formularioReviews.get('comment')?.invalid && (formularioReviews.get('comment')?.dirty || formularioReviews.get('comment')?.touched)) {
+        <p class="mt-1 text-xs text-red-600">Este campo es requerido</p>
+      }
     </div>
     <div class="mb-4">
       <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Calificacion</label>
-      <select id="rating" formControlName="rating" 
-              class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+      <select 
+        id="rating" 
+        formControlName="rating" 
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+      >
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-
       </select>
+      @if (formularioReviews.get('rating')?.invalid && (formularioReviews.get('rating')?.dirty || formularioReviews.get('rating')?.touched)) {
+        <p class="mt-1 text-xs text-red-600">Este campo es requerido</p>
+      }
     </div>
     <div class="flex justify-end space-x-2">
-      <button type="button" (click)="onCancelar()" 
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+      <button 
+        type="button" 
+        (click)="onCancelar()" 
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+      >
         Cancelar
       </button>
       @if (modoEdicion) {
@@ -63,7 +76,7 @@
         >
           Actualizar
         </button>
-        }@else {
+      } @else {
         <button
           type="submit"
           (click)="addReviews()"
@@ -71,8 +84,7 @@
         >
           Crear
         </button>
-  
-        }
+      }
     </div>
   </form>
 </div>

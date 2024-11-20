@@ -17,6 +17,9 @@ export class ReviewsService {
   getlistReviews(): Observable<any> {
     return this._httpClient.get(this.myapiUrl);
   }
+  getlistReviewsRecent(): Observable<any> {
+    return this._httpClient.get(this.myapiUrl+"/recent");
+  }
 
   saveReviews(form: Irevieews): Observable<any> {
     // Preparar los parámetros que se van a enviar en la solicitud

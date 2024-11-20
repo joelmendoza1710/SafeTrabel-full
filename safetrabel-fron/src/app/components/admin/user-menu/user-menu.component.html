@@ -3,10 +3,10 @@
 </button>
 
 <mat-menu #menu="matMenu" class="bg-white">
-  @if (userEmail && userName) {
+  @if (userLoginOn) {
   <div class="px-4 py-2 text-green-700">
-    <div>{{ userName }}</div>
-    <div class="text-sm text-green-600">{{ userEmail }}</div>
+    <div>{{ userLoginOn.name }}</div>
+    <div class="text-sm text-green-600">{{ userLoginOn.username }}</div>
   </div>
   <button
     mat-menu-item

@@ -19,8 +19,12 @@
             <h2 class="text-xl font-bold mb-2">
               {{ destination.location.name }}
             </h2>
+            <p class="text-gray-600 mb-2">
+              {{ destination.location.city }}, {{ destination.location.country }}
+            </p>
+            <br>
             <a
-              (click)="navegarlocation(destination.id)"
+              (click)="navegarlocation(destination.location.id)"
               class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300"
             >
               Ver detalles
@@ -53,11 +57,15 @@
           <h1 class="text-3xl font-bold mb-4">
             {{ selectedDestination.location.name }}
           </h1>
-          <p class="text-gray-600 mb-4">
-            {{ selectedDestination.description }}
+          <p class="text-gray-600 mb-2">
+            {{ selectedDestination.location.city }}, {{ selectedDestination.location.country }}
           </p>
+          <p class="text-gray-600 mb-4">
+            {{ selectedDestination.location.description }}
+          </p>
+          <br>
           <a
-            [routerLink]="['/rate-destination', selectedDestination.id]"
+            [routerLink]="['/rate-destination', selectedDestination.location.id]"
             class="bg-green-600 text-white px-2 py-2 rounded hover:bg-green-700 transition duration-300 ml-2"
           >
             Calificar y opinar
@@ -69,8 +77,13 @@
             Volver a la lista
           </a>
         </div>
+        <br>
+        <br>
+        <br>
+        <app-recent-reviews></app-recent-reviews>
       </div>
     </div>
+   
   </main>
   <app-footer></app-footer>
 </div>

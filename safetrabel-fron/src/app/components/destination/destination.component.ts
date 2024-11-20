@@ -6,6 +6,7 @@ import { PhotosService } from '../admin/photos/photos.service';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { ReviewsService } from '../admin/reviews/reviews.service';
+import { RecentReviewsComponent } from '../recent-reviews/recent-reviews.component';
 
 interface Destination {
   id: number;
@@ -18,7 +19,7 @@ interface Destination {
 @Component({
   selector: 'app-destination',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule,HeaderComponent,FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule,HeaderComponent,FooterComponent,RecentReviewsComponent],
   templateUrl: './destination.component.html',
   providers: [PhotosService,ReviewsService],
   styleUrls: ['./destination.component.scss'],
@@ -56,11 +57,12 @@ export class DestinationComponent implements OnInit {
       this._PhotosService.getlisPhotosByuser(10).subscribe({
         next: (datos) => {
           this.destinations = datos;
+          console.log(this.destinations)
           // Mueve la lógica de selección aquí después de cargar los datos.
           this.route.params.subscribe((params) => {
             this.destinationId = +params['id'];
             this.selectedDestination = this.destinations.find(
-              (d) => d.id === this.destinationId
+              (d) => d.location.id === this.destinationId
             );
           });
         },
