@@ -1,0 +1,58 @@
+<div class="card p-6 w-full max-w-2xl mx-auto mt-8 shadow-xl rounded-xl bg-white border border-gray-100">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3 border-gray-100">Predicción de Repetición de Visita</h2>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="grid gap-5">
+    <label for="Edad" class="text-sm font-medium text-gray-700">Edad</label>
+    <input type="number" formControlName="edad" placeholder="Edad" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full" />
+    
+    <label for="" class="text-sm font-medium text-gray-700">Ciudad de vivienda</label>
+    <select formControlName="lugarVivienda" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full appearance-none bg-white bg-[url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] bg-no-repeat pr-10">
+      <option>Bogota</option>
+      <option>Medellin</option>
+      <option>Barranquilla</option>
+      <option>Cartagena</option>
+      <option>Cali</option>
+    </select>
+    
+    <label for="" class="text-sm font-medium text-gray-700">Duracion De estadia</label>
+    <input type="number" formControlName="duracionEstadia" placeholder="Duración de estadía (días)" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full" />
+    
+    <label for="" class="text-sm font-medium text-gray-700">Localizacionn</label>
+    <select formControlName="location" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full appearance-none bg-white bg-[url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] bg-no-repeat pr-10">
+      <option>Playa_Blanca</option>
+      <option>Ciudad_Amurallada</option>
+      <option>Islas_del_Rosario</option>
+      <option>San_Andres</option>
+      <option>Guatape</option>
+    </select>
+    
+    <label class="text-sm font-medium text-gray-700">Calificacion</label>
+    <input type="number" formControlName="rating" placeholder="Calificación (1 a 5)" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full" />
+    
+    <label for="" class="text-sm font-medium text-gray-700">Sentimiento</label>
+    <select formControlName="sentimientoComentario" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full appearance-none bg-white bg-[url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] bg-no-repeat pr-10">
+      <option>Positivo</option>
+      <option>Neutro</option>
+      <option>Negativo</option>
+    </select>
+
+    <button type="submit" class="bg-gradient-to-r from-teal-500 to-emerald-500 text-white py-3 px-4 rounded-lg font-medium hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 mt-2">Predecir</button>
+  </form>
+
+  <div *ngIf="resultado" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
+    <h3 class="text-xl font-semibold text-gray-800 mb-3">Resultado: {{ resultado.resultado }}</h3>
+    <p class="text-sm text-gray-600 mb-4 italic border-l-4 border-teal-500 pl-3">{{ resultado.explicacionRegla }}</p>
+
+    <div class="space-y-3">
+      <div *ngFor="let key of resultado.distribucion | keyvalue" class="bg-white p-3 rounded-lg shadow-sm">
+        <div class="flex justify-between items-center mb-1">
+          <strong class="text-gray-700">{{ key.key }}:</strong> 
+          <span class="text-teal-600 font-bold">{{ (+key.value * 100) | number: '1.1-2' }}%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="bg-gradient-to-r from-teal-500 to-emerald-500 h-2 rounded-full" [style.width]="(+key.value * 100) + '%'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

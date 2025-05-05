@@ -7,6 +7,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { ReviewsService } from '../admin/reviews/reviews.service';
 import { RecentReviewsComponent } from '../recent-reviews/recent-reviews.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface Destination {
   id: number;
@@ -28,6 +29,7 @@ export class DestinationComponent implements OnInit {
   destinationId!: number;
   selectedDestination!: any | undefined;
   userRating: number = 0;
+  safeAddress!: SafeResourceUrl;
 
   destinations: any[] = [];
 
@@ -35,10 +37,13 @@ export class DestinationComponent implements OnInit {
     private route: ActivatedRoute,
     private _PhotosService: PhotosService,
     private router:Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.getallphotosByuser();
+    
+  
     
   }
 
@@ -57,7 +62,7 @@ export class DestinationComponent implements OnInit {
       this._PhotosService.getlisPhotosByuser(10).subscribe({
         next: (datos) => {
           this.destinations = datos;
-          console.log(this.destinations)
+          
           // Mueve la lógica de selección aquí después de cargar los datos.
           this.route.params.subscribe((params) => {
             this.destinationId = +params['id'];
@@ -65,6 +70,9 @@ export class DestinationComponent implements OnInit {
               (d) => d.location.id === this.destinationId
             );
           });
+          this.safeAddress = this.sanitizer.bypassSecurityTrustResourceUrl(
+            this.selectedDestination.location.address
+          );
         },
         error(err) {
           console.log(err);

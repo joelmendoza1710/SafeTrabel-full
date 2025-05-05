@@ -1,0 +1,295 @@
+@startuml
+class ApplicationConfig {
+  + usuarioDao
+  + authenticationManager()
+  + authenticationProvider()
+  + passwordEncoder()
+  + userDetailService()
+}
+class Corsconfig {
+  + webMvcConfigurer()
+}
+class SecurityConfig {
+  + jwtAuthenticationFilter
+  + authProvider
+  + securityFilterChain()
+  + configurationSource()
+}
+class AuthController {
+  + authService
+  + getAllUsuarios()
+  + getUsuarioById()
+  + createUsuario()
+  + updateUsuario()
+  + deleteUsuario()
+  + login()
+  + register()
+  + registerAdmin()
+}
+class LocationController {
+  + locationService
+  + createLocation()
+  + getAllLocations()
+  + getLocationById()
+  + updateLocation()
+  + deleteLocation()
+}
+class PhotosController {
+  + photoService
+  + request
+  + storageService
+  + userRepository
+  + locationRepository
+  + getAllPhotos()
+  + getPhotoById()
+  + updatePhoto()
+  + deletePhoto()
+  + getPhotosByUserId()
+  + getPhotosByLocationId()
+  + uploadFile()
+  + getFile()
+}
+class PrediccionController {
+  + wekaService
+  + predecir()
+}
+class ReviewController {
+  + reviewService
+  + createReview()
+  + getAllReviews()
+  + getReviewById()
+  + updateReview()
+  + deleteReview()
+  + getRecentReviews()
+  + getReviewsByUserId()
+  + getReviewsByLocationId()
+}
+class GlobalExceptionHandler {
+  + handlerArgumentException()
+  + handlerRuntimeException()
+}
+class JwtAuthenticationFilter {
+  + jwtService
+  + userDetailsService
+  + doFilterInternal()
+  + getTokenFromRequest()
+}
+class JwtService {
+  + SECRET_KEY
+  + getToken()
+  + getToken()
+  + getKey()
+  + getUsernameFromToken()
+  + isTokenValid()
+  + getAllClaims()
+  + getClaim()
+  + getExpiration()
+  + isTokenExpired()
+}
+class PhotosMapper {
+  + INSTANCE
+  + toPhotosDTO()
+  + toPhotosEntity()
+}
+class ReviewsMapper {
+  + INSTANCE
+  + toReviewsDTO()
+  + toReviews()
+  + toReviewDTO()
+}
+class UserMapper {
+  + INSTANCE
+  + toUserDTO()
+  + toUser()
+}
+class LocationDao {
+}
+class PhotosDao {
+  + findByUserId()
+  + findByUserId()
+  + findByLocationId()
+}
+class ReviewDao {
+  + findByUserId()
+  + findAllByOrderByCreatedAtDesc()
+  + findByUserIdOrderByCreatedAtDesc()
+  + findByLocationIdOrderByCreatedAtDesc()
+}
+class StorageService {
+  + init()
+  + store()
+  + loadAsResource()
+}
+class UsuarioDao {
+  + findByUsername()
+  + findById()
+}
+class PhotosDTO {
+  + id
+  + photoUrl
+  + location
+  + uploadedAt
+  + user
+}
+class PrediccionRequest {
+  + edad
+  + lugarVivienda
+  + duracionEstadia
+  + location
+  + rating
+  + sentimientoComentario
+}
+class PrediccionResponse {
+  + resultado
+  + cumpleReglaNegocio
+  + explicacionRegla
+  + distribucion
+}
+class ReviewDTO {
+  + id
+  + user
+  + location
+  + rating
+  + comment
+  + createdAt
+}
+class UserDTO {
+  + id
+  + username
+  + name
+  + role
+  + createdAt
+  + getId()
+  + setId()
+  + getUsername()
+  + setUsername()
+  + getName()
+  + setName()
+  + getRole()
+  + setRole()
+  + getCreatedAt()
+  + setCreatedAt()
+}
+class locations {
+  + id
+  + name
+  + city
+  + country
+  + description
+  + address
+  + createdAt
+}
+class photos {
+  + id
+  + location
+  + user
+  + photoUrl
+  + uploadedAt
+}
+class reviews {
+  + id
+  + user
+  + location
+  + rating
+  + comment
+  + createdAt
+}
+class User {
+  + id
+  + name
+  + username
+  + password
+  + createdAt
+  + role
+  + getAuthorities()
+  + isAccountNonExpired()
+  + isAccountNonLocked()
+  + isCredentialsNonExpired()
+  + isEnabled()
+}
+class AuthResponse {
+  + result
+  + token
+}
+class LoginRequest {
+  + username
+  + password
+}
+class RegisterAdminRequest {
+  + username
+  + password
+  + name
+  + role
+}
+class RegisterRequest {
+  + username
+  + password
+  + name
+}
+class SafetrabelApiApplication {
+  + main()
+}
+class AuthService {
+  + usuarioDao
+  + jwtService
+  + passwordEncoder
+  + authenticationManager
+  + userMapper
+  + getAllUsuarios()
+  + getUsuarioById()
+  + createUsuario()
+  + updateUsuario()
+  + deleteUsuario()
+  + login()
+  + register()
+  + registerAdmin()
+}
+class FileSystemStorageService {
+  + rootLcation
+  + mediaLocation
+  + init()
+  + store()
+  + loadAsResource()
+}
+class LocationService {
+  + locationRepository
+  + saveLocation()
+  + getAllLocations()
+  + getLocationById()
+  + deleteLocation()
+  + updateLocation()
+}
+class PhotosService {
+  + photoRepository
+  + photosMapper
+  + savePhoto()
+  + getAllPhotos()
+  + getPhotoById()
+  + deletePhoto()
+  + updatePhoto()
+  + savePhotourl()
+  + getPhotosByUserId()
+  + getPhotosByLocationId()
+}
+class ReviewService {
+  + reviewRepository
+  + reviewsMapper
+  + userRepository
+  + locationsRepository
+  + createReview()
+  + getAllReviews()
+  + getReviewById()
+  + updateReview()
+  + getReviewsOrderedByDate()
+  + getReviewsByUserId()
+  + getReviewsByLocationId()
+  + deleteReview()
+}
+class WekaPredictionService {
+  + modelo
+  + dataStructure
+  + init()
+  + predecir()
+  + cumpleCondicionesAltas()
+}
+@enduml

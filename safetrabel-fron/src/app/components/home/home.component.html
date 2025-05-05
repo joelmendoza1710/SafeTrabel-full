@@ -1,7 +1,31 @@
 <div class="min-h-screen bg-gray-100">
   <app-header />
   <main class="container mx-auto px-4 py-8">
-    <app-search />
+   <!-- Hero Section con imagen de fondo -->
+<section class="relative h-[600px] w-full">
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="https://i.pinimg.com/736x/c9/70/e3/c970e38ad8ad431733fe8eb848612ad9.jpg" 
+      alt="Cartagena, Colombia" 
+      class="object-cover w-full h-full brightness-75"
+    />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+  <div class="container mx-auto px-4 h-full flex items-center relative z-10">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+        Descubre los destinos más fascinantes del mundo
+      </h1>
+      <p class="text-xl text-white/90 mb-8 max-w-xl">
+        Experiencias únicas, paisajes inolvidables y aventuras que cambiarán tu vida
+      </p>
+    
+    </div>
+  </div>
+</section>
+<br>
+
+
     <app-destination></app-destination>
     <app-recent-reviews></app-recent-reviews>
   </main>

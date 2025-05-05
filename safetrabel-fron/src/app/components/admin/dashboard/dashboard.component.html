@@ -5,8 +5,8 @@
       <p class="text-gray-600">Gestiona tus viajes, clientes y reservas desde un solo lugar.</p>
     </div>
 
+    <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Dashboard cards -->
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex items-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,9 +30,36 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
           </svg>
-          <h2 class="text-xl font-semibold">total de localizaciones</h2>
+          <h2 class="text-xl font-semibold">Total de Localizaciones</h2>
         </div>
         <p class="text-3xl font-bold text-green-600">{{lenglocation}}</p>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+      <!-- Tendencia de Reseñas Chart -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Tendencia de Reseñas Mensuales</h2>
+        <app-line-chart [data]="userGrowthData"></app-line-chart>
+      </div>
+      
+      <!-- Reseñas por Sitio Turístico -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Reseñas por Sitio Turístico</h2>
+        <app-bar-chart [data]="reservationsByDestination"></app-bar-chart>
+      </div>
+      
+      <!-- Valoración de Localizaciones -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Valoración de Localizaciones</h2>
+        <app-radar-chart [data]="userSatisfactionData"></app-radar-chart>
+      </div>
+      
+      <!-- Distribución de Reseñas por Tipo de Sitio -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Distribución de Reseñas por Tipo de Sitio</h2>
+        <app-pie-chart [data]="revenueDistributionData"></app-pie-chart>
       </div>
     </div>
 
@@ -66,7 +93,5 @@
         </li>
       </ul>
     </div>
-
-   
   </div>
 </main>

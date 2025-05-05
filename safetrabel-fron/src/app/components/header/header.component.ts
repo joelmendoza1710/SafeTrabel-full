@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { UserMenuComponent } from '../admin/user-menu/user-menu.component';
 import { LoginService } from '../../services/inicio/login.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,6 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  isScrolled = false;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   user: any;
 
@@ -32,6 +33,10 @@ export class HeaderComponent {
    
       console.log(this.user)
 
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 50;
   }
 
 

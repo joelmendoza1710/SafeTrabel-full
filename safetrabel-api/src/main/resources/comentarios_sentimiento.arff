@@ -1,0 +1,23 @@
+@RELATION comentarios
+
+@ATTRIBUTE texto STRING
+@ATTRIBUTE sentimiento {positivo, negativo, neutral}
+
+@DATA
+"Me encantó el lugar, fue maravilloso",positivo
+"Excelente experiencia, volvería sin dudarlo",positivo
+"Fue un viaje hermoso, todo salió perfecto",positivo
+"La atención fue muy buena",positivo
+"Nos encantó la comida y el servicio",positivo
+
+"No me gustó la atención",negativo
+"Demasiado ruido, fue horrible",negativo
+"La habitación estaba sucia",negativo
+"Una experiencia muy mala",negativo
+"Me pareció pésimo todo",negativo
+
+"La experiencia fue regular",neutral
+"Estuvo bien, pero nada especial",neutral
+"No fue lo mejor ni lo peor",neutral
+"El lugar está bien, aunque podría mejorar",neutral
+"Ni bien ni mal, estuvo aceptable",neutral

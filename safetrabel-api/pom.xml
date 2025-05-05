@@ -109,6 +109,18 @@
     <artifactId>azure-storage-blob</artifactId>
     <version>12.16.0</version> <!-- Usa la versión más reciente -->
 </dependency>
+
+ <dependency>
+        <groupId>com.github.javaparser</groupId>
+        <artifactId>javaparser-core</artifactId>
+        <version>3.23.1</version>
+    </dependency>
+	<dependency>
+	
+    <groupId>nz.ac.waikato.cms.weka</groupId>
+    <artifactId>weka-stable</artifactId>
+    <version>3.8.6</version>
+</dependency>
 	
 	</dependencies>
 

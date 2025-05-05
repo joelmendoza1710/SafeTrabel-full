@@ -1,13 +1,30 @@
-<div class="bg-white p-6 rounded-lg shadow-md mb-8">
-    <h2 class="text-2xl font-semibold mb-4">Encuentra tu próxima aventura</h2>
-    <form class="flex flex-wrap gap-4">
-      <input
-        type="text"
-        placeholder="¿Adonde?"
-        class="flex-grow p-2 border rounded"
-      />
-      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-        Buscar
-      </button>
-    </form>
+<!-- Hero Section con imagen de fondo -->
+<section class="relative h-[600px] w-full">
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="https://i.pinimg.com/736x/c9/70/e3/c970e38ad8ad431733fe8eb848612ad9.jpg" 
+      alt="Cartagena, Colombia" 
+      class="object-cover w-full h-full brightness-75"
+    />
   </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+  <div class="container mx-auto px-4 h-full flex items-center relative z-10">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+        Descubre los destinos más fascinantes del mundo
+      </h1>
+      <p class="text-xl text-white/90 mb-8 max-w-xl">
+        Experiencias únicas, paisajes inolvidables y aventuras que cambiarán tu vida
+      </p>
+      <a 
+        routerLink="/destinos" 
+        class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-medium inline-flex items-center transition-colors text-lg shadow-lg hover:shadow-xl"
+      >
+        Explorar destinos
+        <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+<br>
+
