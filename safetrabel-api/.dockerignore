@@ -1,0 +1,41 @@
+# Ignorar directorios de salida de la construcción (Maven/Gradle)
+# No necesitamos copiar estos directorios locales, ya que la construcción dentro de Docker los creará
+target/
+build/ # Si usas Gradle, descomenta o añade esta línea
+
+# Ignorar directorios y archivos específicos de IDEs
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Ignorar archivos del sistema operativo (como los de macOS)
+.DS_Store
+
+# Ignorar archivos y directorios de control de versiones
+.git/
+.gitignore
+.gitattributes
+
+# Ignorar archivos específicos de Maven/Gradle que no son parte del wrapper necesario
+# .gradle/ # Si usas Gradle, puedes ignorar su cache
+
+# NOTA: NO ignoramos .mvn/, mvnw, mvnw.cmd porque son necesarios para el Maven Wrapper.
+
+# Ignorar archivos de log u otros archivos temporales
+*.log
+*.class
+
+# Ignorar documentación o archivos del proyecto no necesarios en tiempo de ejecución
+diagrama.puml
+# Si tienes otros archivos grandes o no esenciales (como PDF, imágenes de documentación, etc.) puedes añadirlos
+
+# Ignorar archivos relacionados con Docker (opcional, pero común)
+Dockerfile
+.dockerignore
+
+# Directorios específicos de tu proyecto que NO necesitas dentro del contenedor
+# Basado en tu imagen, si "mediafiles" no es necesario para la ejecución de la app, descomenta la línea de abajo
+# mediafiles/

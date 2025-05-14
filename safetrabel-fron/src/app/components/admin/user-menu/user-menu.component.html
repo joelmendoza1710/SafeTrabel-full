@@ -1,23 +1,98 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" class="text-white">
-  <mat-icon>account_circle</mat-icon>
+
+<button 
+  mat-button 
+  [matMenuTriggerFor]="menu" 
+  class="flex items-center rounded-full hover:bg-green-700 transition-colors duration-200 py-1 px-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-green-800"
+>
+  @if (userLoginOn) {
+    <div class="flex items-center">
+      <!-- Avatar con iniciales o imagen de perfil -->
+      <div class="w-8 h-8 rounded-full bg-green-200 text-green-800 flex items-center justify-center font-medium mr-2 border-2 border-green-400">
+        {{ userLoginOn.name[0] }}
+      </div>
+      <span class="text-white mr-1 hidden sm:inline">{{ userLoginOn.name.split(' ')[0] }}</span>
+      <mat-icon class="text-white text-sm">arrow_drop_down</mat-icon>
+    </div>
+  } @else {
+    <div class="flex items-center">
+      <mat-icon class="text-white">account_circle</mat-icon>
+      <span class="text-white ml-1 hidden sm:inline">Mi cuenta</span>
+      <mat-icon class="text-white text-sm">arrow_drop_down</mat-icon>
+    </div>
+  }
 </button>
 
-<mat-menu #menu="matMenu" class="bg-white">
-  @if (userLoginOn) {
-  <div class="px-4 py-2 text-green-700">
-    <div>{{ userLoginOn.name }}</div>
-    <div class="text-sm text-green-600">{{ userLoginOn.username }}</div>
+<!-- Menú desplegable mejorado -->
+<mat-menu #menu="matMenu" class="mt-2" [overlapTrigger]="false">
+  <div class="w-64 py-1">
+    @if (userLoginOn) {
+      <!-- Cabecera de usuario -->
+      <div class="px-4 py-3 border-b border-gray-100">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">
+            {{ userLoginOn.name[0] }}
+          </div>
+          <div>
+            <div class="font-medium text-white">{{ userLoginOn.name }}</div>
+            <div class="text-sm text-gray-500">{{ userLoginOn.username }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Opciones de usuario -->
+      <a mat-menu-item routerLink="/profile" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">person</mat-icon>
+        <span class=" text-white">Mi perfil</span>
+      </a>
+      
+      <a mat-menu-item routerLink="/my-trips" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">card_travel</mat-icon>
+        <span class=" text-white">Mis viajes</span>
+      </a>
+      
+      <a mat-menu-item routerLink="/my-reviews" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">star</mat-icon>
+        <span class=" text-white">Mis reseñas</span>
+      </a>
+      
+      <a mat-menu-item routerLink="/settings" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">settings</mat-icon>
+        <span class=" text-white">Configuración</span>
+      </a>
+      
+      <div class="border-t border-gray-100 my-1"></div>
+      
+      <button
+        mat-menu-item
+         (click)="logout()"
+        class="flex items-center px-4 py-2 hover:bg-red-50 transition-colors duration-150 w-full text-left"
+      >
+        <mat-icon class="text-red-600 mr-3">exit_to_app</mat-icon>
+        <span class=" text-white">Cerrar sesión</span>
+      </button>
+    } @else {
+      <!-- Opciones para usuario no logueado -->
+      <div class="px-4 py-3 text-center border-b border-gray-100">
+        <div class="font-medium text-white mb-1">¡Bienvenido a Safe Travel!</div>
+        <div class="text-sm text-gray-500">Inicia sesión para acceder a todas las funciones</div>
+      </div>
+      
+      <a mat-menu-item href="/login" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">login</mat-icon>
+        <span class=" text-white">Iniciar sesión</span>
+      </a>
+      
+      <a mat-menu-item href="/register" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">person_add</mat-icon>
+        <span class=" text-white">Registrarse</span>
+      </a>
+      
+      <div class="border-t border-gray-100 my-1"></div>
+      
+      <a mat-menu-item routerLink="/help" class="flex items-center px-4 py-2 hover:bg-green-50 transition-colors duration-150">
+        <mat-icon class="text-green-600 mr-3">help</mat-icon>
+        <span class=" text-white">Ayuda</span>
+      </a>
+    }
   </div>
-  <button
-    mat-menu-item
-    (click)="logout()"
-    class="text-green-700 hover:bg-green-100"
-  >
-    <mat-icon>exit_to_app</mat-icon>
-    <span>Cerrar sesión</span>
-  </button>
-  
-  }@else {
-  <div class="text-sm text-green-600 p-2"><a href="/login" class="hover:underline">Login</a></div>
-  }
 </mat-menu>
