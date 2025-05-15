@@ -3,12 +3,16 @@ package com.safetrabel.safetrabel_api.model.dto;
 import java.time.ZonedDateTime;
 import com.safetrabel.safetrabel_api.model.entity.User.Role;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private Long id;
     private String username;

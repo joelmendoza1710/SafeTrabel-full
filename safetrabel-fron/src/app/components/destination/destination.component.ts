@@ -59,9 +59,10 @@ export class DestinationComponent implements OnInit {
   }
 
   getallphotosByuser() {
-      this._PhotosService.getlisPhotosByuser(10).subscribe({
+      this._PhotosService.getlisPhotosByuser(17).subscribe({
         next: (datos) => {
           this.destinations = datos;
+          console.log('estos son los destinos',this.destinations);
           
           // Mueve la lógica de selección aquí después de cargar los datos.
           this.route.params.subscribe((params) => {
