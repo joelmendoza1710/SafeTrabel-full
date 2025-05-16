@@ -75,7 +75,7 @@ export class RateDestinationComponent implements OnInit {
     this.addReviews();
   }
   getallphotosByuser() {
-    this._PhotosService.getlisPhotosByuser(10).subscribe({
+    this._PhotosService.getlisPhotosByuser(17).subscribe({
       next: (datos) => {
         this.destinations = datos;
 

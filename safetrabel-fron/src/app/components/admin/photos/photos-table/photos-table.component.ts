@@ -35,7 +35,7 @@ export class PhotosTableComponent {
   filteredUsers: any[] = [];
   displayedUsers: any[] = [];
   searchTerm: string = '';
-  pageSize: number = 10;
+  pageSize: number = 8;
   currentPage: number = 0;
 
   constructor(
